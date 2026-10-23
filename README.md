@@ -12,6 +12,7 @@
 <p align="center">
   <a href="https://keenrig.com">Website</a> ·
   <a href="https://keenrig.com/en/docs/install">Install guide</a> ·
+  <a href="https://github.com/keenrig/keenrig/discussions">Discussions</a> ·
   <a href="CONTRIBUTING.md">Contributing</a> ·
   <a href="LICENSE">AGPL-3.0</a>
 </p>
