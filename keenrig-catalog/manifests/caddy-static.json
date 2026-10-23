@@ -1,0 +1,18 @@
+{
+  "id": "caddy-static",
+  "title": "Caddy (static)",
+  "title_vi": "Caddy (trang tĩnh)",
+  "description": "A static-site server with compression and caching on by default. Unlike Nginx, its default configuration already suits a static site, so there is no file to edit.",
+  "description_vi": "Máy chủ trang tĩnh có nén và cache sẵn. Khác Nginx ở chỗ cấu hình mặc định đã hợp lý cho một site tĩnh, không cần sửa file nào.",
+  "version": "2.8",
+  "repository": "docker.io/library/caddy",
+  "tag": "2.8-alpine",
+  "digest": "sha256:af32e97399febea808609119bb21544d0265c58a02836576e32a2d082c262c17",
+  "http_port": 80,
+  "min_memory_mb": 64,
+  "healthcheck_path": "/",
+  "tags": ["web"],
+  "icon": "caddy.svg",
+  "website": "https://caddyserver.com",
+  "source": "https://github.com/caddyserver/caddy"
+}

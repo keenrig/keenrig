@@ -1,0 +1,29 @@
+# keenrig-ota — verify chữ ký, drain box, thay bin/, rollback.
+#
+# Vì sao là tiến trình riêng: một tiến trình không thay được đáng tin cậy chính
+# binary nó đang chạy.
+[Unit]
+Description=Keenrig updater (OTA)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=keenrig
+Group=keenrig
+Environment=KEENRIG_BASE=/var/lib/keenrig
+ExecStart=/var/lib/keenrig/bin/keenrig-ota --http 127.0.0.1:8082
+Restart=always
+RestartSec=30
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+# ota ghi bin/ (thay nguyên khối) và update/ (state + bản chờ rollback).
+# bin-previous PHẢI cùng filesystem với bin: rollback là rename, mà rename chỉ
+# nguyên tử khi cùng filesystem.
+ReadWritePaths=/var/lib/keenrig/bin /var/lib/keenrig/node/update
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,33 @@
+# keenrig-agent — thu metric/log, đẩy lên cloud. KHÔNG mở platform.db (ND-05).
+[Unit]
+Description=Keenrig agent (telemetry)
+# Wants, không After=keenrig-box: đồ thị gọi là DAG và agent tự retry (ND-06).
+# Ép thứ tự sẽ giấu mất lỗi "khởi động sai thứ tự thì chết" cho tới lần reboot
+# thật đầu tiên.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=keenrig
+Group=keenrig
+Environment=KEENRIG_BASE=/var/lib/keenrig
+# Thông tin ghép cloud (KEENRIG_CLOUD_URL / KEENRIG_AGENT_KEY / KEENRIG_ENV_ID)
+# do get.sh --join ghi, root:root 0600 — khoá API không được nằm trong unit
+# (0644, ai trên máy cũng đọc được) hay trên dòng lệnh (ps aux). Dấu `-`: thiếu
+# file là node standalone hợp lệ, agent chỉ phục vụ health/metrics (UI-11).
+EnvironmentFile=-/etc/keenrig/agent.env
+ExecStart=/var/lib/keenrig/bin/keenrig-agent --http 127.0.0.1:8081
+Restart=always
+RestartSec=5
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+# Agent chỉ được ghi ĐÚNG vùng của nó (FILESYSTEM.md). Không nới thêm: nới ra
+# là mở lại đúng đường mà tách tiến trình sinh ra để đóng.
+ReadWritePaths=/var/lib/keenrig/node/agent
+
+[Install]
+WantedBy=multi-user.target

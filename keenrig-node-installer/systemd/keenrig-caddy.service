@@ -1,0 +1,59 @@
+# keenrig-caddy — gateway. Tiến trình #2 phía instance (V2-DELTA §2.1).
+#
+# Gateway là tiến trình RIÊNG, không nhúng vào box. Đó là điều kiện của PX-09
+# ("gateway sống qua box restart: 0 connection drop") và của OT-03 (app không
+# downtime xuyên suốt một lần OTA): box restart thì kết nối của khách không bị
+# đụng tới, vì chúng không đi qua box.
+[Unit]
+Description=Keenrig gateway (Caddy)
+Documentation=https://keenrig.com/docs
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=keenrig
+Group=keenrig
+Environment=KEENRIG_BASE=/var/lib/keenrig
+Environment=XDG_DATA_HOME=/var/lib/keenrig/node/proxy
+Environment=XDG_CONFIG_HOME=/var/lib/keenrig/node/proxy
+
+ExecStart=/usr/bin/caddy run --environ --config ${KEENRIG_BASE}/node/proxy/caddy.json
+# reload KHÔNG phải restart: `caddy reload` áp cấu hình mới mà giữ nguyên
+# listener, nên kết nối đang mở không đứt. Restart ở đây sẽ biến mọi lần đổi
+# cấu hình thành một lần rớt kết nối — đúng thứ PX-09 cấm.
+ExecReload=/usr/bin/caddy reload --config ${KEENRIG_BASE}/node/proxy/caddy.json --force
+Restart=on-failure
+RestartSec=5s
+
+# Cổng 80/443 dưới 1024 nên cần quyền. CAP_NET_BIND_SERVICE thay vì chạy root:
+# một lỗ trong Caddy khi đó chỉ có quyền mở cổng thấp, không có quyền đọc
+# /etc/shadow hay ghi vào bin/.
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+
+# Dừng SẠCH: Caddy cần thời gian đóng kết nối đang phục vụ. Giết sớm là cắt
+# ngang request của khách — chính điều PX-09 đo.
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=full
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+ReadWritePaths=/var/lib/keenrig/node
+
+# Gateway giữ nhiều kết nối đồng thời; giới hạn mặc định 1024 fd sẽ chạm trần
+# ở vài trăm khách và triệu chứng là "thỉnh thoảng site không vào được".
+LimitNOFILE=65536
+
+# Gateway KHÔNG được là nạn nhân OOM trước app: nó chết thì mọi app mất đường
+# vào cùng lúc, còn một app chết thì chỉ app đó mất.
+OOMScoreAdjust=-500
+
+[Install]
+WantedBy=multi-user.target

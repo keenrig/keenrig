@@ -1,0 +1,34 @@
+{
+  "id": "activepieces",
+  "title": "Activepieces",
+  "description": "Open-source workflow automation (a Zapier alternative) with 280+ integrations and AI agents. Runs in single-container mode: embedded PGlite database and in-memory queue, all data kept in one persistent volume. Suitable for personal and small-team use; larger deployments should use external Postgres and Redis.",
+  "description_vi": "Tự động hoá quy trình mã nguồn mở (thay thế Zapier) với hơn 280 tích hợp và AI agent. Chạy ở chế độ một container: cơ sở dữ liệu PGlite nhúng và hàng đợi trong bộ nhớ, toàn bộ dữ liệu nằm trong một volume bền. Hợp cho cá nhân và nhóm nhỏ; triển khai lớn hơn nên dùng Postgres và Redis bên ngoài.",
+  "version": "0.92.1",
+  "repository": "docker.io/activepieces/activepieces",
+  "tag": "0.92.1",
+  "digest": "sha256:d22e3f36f78d70264a020d309aa4535c161ba9ee25eeb783759cde3308cd803a",
+  "http_port": 80,
+  "env": {
+    "AP_DB_TYPE": "PGLITE",
+    "AP_REDIS_TYPE": "MEMORY",
+    "AP_TELEMETRY_ENABLED": "false"
+  },
+  "secret_env": [
+    "AP_JWT_SECRET"
+  ],
+  "origin_env": "AP_FRONTEND_URL",
+  "volumes": [
+    {
+      "name": "data",
+      "path": "/root/.activepieces"
+    }
+  ],
+  "min_memory_mb": 1536,
+  "healthcheck_path": "/",
+  "tags": [
+    "automation"
+  ],
+  "icon": "activepieces.svg",
+  "website": "https://www.activepieces.com/",
+  "source": "https://github.com/activepieces/activepieces"
+}

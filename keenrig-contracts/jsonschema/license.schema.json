@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keenrig.com/schemas/license.schema.json",
+  "$comment": "v2 (2026-09-01): thêm plan/max_apps/max_domains cho mô hình 5 bậc hợp nhất billing+license (DESIGN-plans-unified.md). max_nodes đổi minimum 1→0: 0 nghĩa là KHÔNG GIỚI HẠN — quy ước này áp cho cả max_apps/max_domains. An toàn vì chưa có license nào từng được ký (internal/license hai phía đều TODO tới hôm nay).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["license_id", "instance_id", "features", "issued_at", "expires_at", "grace_days"],
+  "properties": {
+    "license_id": { "type": "string" },
+    "instance_id": { "type": "string" },
+    "env_id": { "type": "string" },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runtime"],
+      "properties": {
+        "plan": {
+          "type": "string",
+          "enum": ["starter", "standard", "pro", "enterprise"],
+          "default": "starter",
+          "$comment": "Bậc đã mua — để UI và log NÓI được tên bậc. Quyền thật nằm ở các trường bên dưới: instance thi hành theo số, không theo tên, nên thêm bậc mới không cần binary mới ở máy khách."
+        },
+        "runtime": { "enum": ["docker", "swarm", "k8s"] },
+        "max_nodes": { "type": "integer", "minimum": 0, "default": 1, "$comment": "0 = không giới hạn" },
+        "max_apps": { "type": "integer", "minimum": 0, "default": 0, "$comment": "0 = không giới hạn. Bậc starter ký 1." },
+        "max_domains": { "type": "integer", "minimum": 0, "default": 0, "$comment": "0 = không giới hạn. Bậc starter ký 1." },
+        "ha_t1": { "type": "boolean", "default": false }
+      }
+    },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "grace_days": { "type": "integer", "minimum": 0, "default": 14 }
+  }
+}

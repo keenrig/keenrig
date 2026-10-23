@@ -1,0 +1,71 @@
+# keenrig-box — control plane. SỞ HỮU ĐỘC QUYỀN instance/platform.db.
+#
+# Đường dẫn phải khớp keenrig-node/internal/paths/paths.go và get.sh.
+# Lệch nhau là lỗi cài đặt IM LẶNG.
+[Unit]
+Description=Keenrig box (control plane)
+Documentation=https://keenrig.com/docs
+# Wants chứ KHÔNG phải Requires: dockerd chưa lên chỉ nên làm reconciler retry
+# theo backoff, không được làm box không khởi động được. /healthz vẫn phải 200
+# để người vận hành vào xem chuyện gì đang xảy ra.
+Wants=docker.service network-online.target
+After=docker.service network-online.target
+
+[Service]
+Type=simple
+User=keenrig
+Group=keenrig
+SupplementaryGroups=docker
+Environment=KEENRIG_BASE=/var/lib/keenrig
+# SEC-01 — Admin UI nghe LOOPBACK, không phải 0.0.0.0.
+#
+# Đường vào công khai là gateway ở 80/443; nó chuyển tiếp mọi request không
+# khớp domain nào về đây (PX-03, catch-all). Bind 0.0.0.0:8080 sẽ phơi Admin ra
+# Internet trên một cổng KHÔNG có TLS — mật khẩu đi trên đường dây trần, và
+# không có bản quét cổng nào của người vận hành nhắc họ về chuyện đó.
+ExecStart=/var/lib/keenrig/bin/keenrig-box serve --data ${KEENRIG_BASE} --http 127.0.0.1:8080
+Restart=always
+RestartSec=3
+
+# Khi máy cạn RAM, OOM killer phải chọn app trước box: mất control plane là
+# mất luôn đường vào để sửa. Nhưng vẫn để box CÓ THỂ bị giết (không đặt mức
+# miễn nhiễm tuyệt đối) — nếu chính box rò bộ nhớ thì trần MemoryMax phải còn
+# hiệu lực, thay vì để box kéo cả máy xuống.
+OOMScoreAdjust=-999
+MemoryMax=512M
+
+# Dừng: SIGTERM rồi ĐỢI. Box có thể đang giữa một lần Apply (tới 60s vì đợi
+# container Running) và còn phải nhả lease + đóng store sạch. Giết sớm là để
+# lại lease treo, và box còn lại phải chờ hết TTL 120s mới nhận việc.
+KillSignal=SIGTERM
+TimeoutStopSec=90
+
+# Siết quyền. Không dùng ProtectSystem=strict + ReadWritePaths hẹp hơn vì box
+# cần ghi socket docker và cả cây <base>; strict ở đây chỉ tạo cảm giác an toàn
+# rồi vỡ ở lần thêm addon đầu tiên.
+#
+# KHÔNG có NoNewPrivileges, và đó là cố ý. Box là tiến trình DUY NHẤT gọi sudo
+# (internal/privops → /etc/sudoers.d/keenrig, từng script một). NoNewPrivileges
+# làm nhân chặn mọi setuid, nên sudo chết với "The 'no new privileges' flag is
+# set" và MỌI thao tác đặc quyền thành NOT available — đo được trên VPS Ubuntu
+# 24.04 thật 2026-10-02: xoá app để lại thư mục dữ liệu, gateway nginx không
+# reload được. Ranh giới quyền ở đây là danh sách trắng trong sudoers + phép
+# kiểm đối số trong từng script, không phải cờ này. agent/ota KHÔNG gọi sudo
+# nên vẫn giữ NoNewPrivileges=yes.
+#
+# Cũng KHÔNG có ProtectKernelModules= hay RestrictSUIDSGID=: cả hai cài bộ lọc
+# seccomp, và với User= không phải root, systemd NGẦM bật NoNewPrivileges để
+# cài được bộ lọc đó (systemd.exec(5)) — unit không ghi chữ nào mà
+# /proc/<pid>/status vẫn ra `NoNewPrivs: 1`. Đo trên VPS thật 2026-10-14: n8n
+# kẹt restart với EACCES vì `appdata.sh chown-volume` không bao giờ chạy được.
+# Cùng lý do, đừng thêm SystemCallFilter=, RestrictNamespaces=, PrivateDevices=,
+# LockPersonality=, MemoryDenyWriteExecute=, RestrictRealtime=, ProtectClock=,
+# ProtectKernelLogs=, RestrictAddressFamilies=, SystemCallArchitectures=.
+PrivateTmp=yes
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+ReadWritePaths=/var/lib/keenrig
+
+[Install]
+WantedBy=multi-user.target

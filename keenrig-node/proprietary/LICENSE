@@ -1,0 +1,40 @@
+Keenrig Commercial License
+Copyright (c) 2026 Keenrig. All rights reserved.
+
+This license applies to every file in this "proprietary" directory and its
+subdirectories (the "Proprietary Software"). Everything else in this repository
+is licensed under the GNU Affero General Public License v3.0 (see ../LICENSE).
+
+1. Source available, not open source. The source code of the Proprietary
+   Software is published so it can be read, audited and built. Publishing it
+   does not grant any right beyond those listed in this license.
+
+2. Development and testing. You may copy, modify and run the Proprietary
+   Software for development, testing and evaluation, without a subscription.
+
+3. Production use. Using the Proprietary Software in production requires a
+   valid Keenrig licence for a plan that includes the feature in question
+   (for example the Pro plan for the Swarm runtime, the Enterprise plan for
+   the Kubernetes runtime), obtained from https://keenrig.com, and use within
+   the limits of that licence.
+
+4. Modifications. You may modify the Proprietary Software and publish patches
+   to it. Modified versions remain subject to this license, including
+   section 3. You may not remove, disable or work around the licence checks
+   that govern the Proprietary Software.
+
+5. No redistribution. Except as part of an unmodified copy of this repository,
+   you may not distribute, sublicense or sell the Proprietary Software, or
+   offer it as a hosted service to third parties.
+
+6. Third-party components. Components that the Proprietary Software uses
+   remain under their own licenses.
+
+7. No warranty. THE PROPRIETARY SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY
+   OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+   OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+   NO EVENT SHALL KEENRIG BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+   IN CONNECTION WITH THE PROPRIETARY SOFTWARE OR ITS USE.
+
+Questions about this license: hello@keenrig.com

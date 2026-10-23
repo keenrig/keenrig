@@ -1,0 +1,9 @@
+node_modules/
+# dist/ được NHÚNG vào binary nên nó là artifact bắt buộc phải có lúc build Go.
+# Không ignore cả thư mục: .gitkeep phải được commit để go:embed biên dịch được
+# trên một checkout sạch chưa chạy npm.
+dist/*
+!dist/.gitkeep
+e2e/.tmp/
+test-results/
+playwright-report/

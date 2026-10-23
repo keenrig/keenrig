@@ -1,0 +1,34 @@
+{
+  "_comment": [
+    "Ánh xạ tag của devopsbookmarks → tag chủ đề của catalog.",
+    "include_tags chép từ data/topics.json của devopsbookmarks (bản 2024) và bổ",
+    "sung vài tag lệch chính tả có thật trong dữ liệu nguồn (config-management,",
+    "metrics-visualization). MỘT SỬA CÓ CHỦ ĐÍCH: bản gốc để topic 'errors' bao",
+    "gồm cả tag 'monitoring', nên 55 tool giám sát đều bị dán nhãn 'theo dõi lỗi'",
+    "— ở đây 'errors' chỉ nhận đúng tag 'errors'.",
+    "Slug giữ TIẾNG ANH vì nó đi vào trường tags của",
+    "manifest, cùng không gian tên với id app; chỉ label mới dịch.",
+    "",
+    "KHÔNG ánh xạ: nền tảng (linux/windows/osx/bsd/solaris), giấy phép",
+    "(open-source/free/commercial) và ngôn ngữ (python/ruby/go/java...). Ba nhóm",
+    "đó mô tả DỰ ÁN, không mô tả app chạy trong container — lọc catalog theo",
+    "'ruby' không trả lời được câu hỏi nào người dùng thực sự hỏi."
+  ],
+  "topics": [
+    { "slug": "scm", "vi": "Mã nguồn", "en": "Source Code Management", "include_tags": ["scm", "vcs", "git", "mercurial"] },
+    { "slug": "ci", "vi": "CI/CD", "en": "Continuous Integration & Delivery", "include_tags": ["ci", "cd"] },
+    { "slug": "packaging", "vi": "Đóng gói", "en": "Packaging & Artifacts", "include_tags": ["packaging", "artifacts"] },
+    { "slug": "virt", "vi": "Ảo hoá & container", "en": "Virtualization & Containers", "include_tags": ["virt"] },
+    { "slug": "cloud-paas", "vi": "Cloud & PaaS", "en": "Cloud & PaaS Environments", "include_tags": ["cloud", "cloud-paas", "paas"] },
+    { "slug": "config-management", "vi": "Quản lý cấu hình", "en": "Configuration Management", "include_tags": ["cm", "config", "config-mgmt", "config-management"] },
+    { "slug": "provisioning", "vi": "Cấp phát hạ tầng", "en": "Provisioning", "include_tags": ["provisioning"] },
+    { "slug": "orchestration", "vi": "Điều phối", "en": "Orchestration", "include_tags": ["orchestration"] },
+    { "slug": "service-discovery", "vi": "Khám phá dịch vụ", "en": "Service Discovery", "include_tags": ["service-discovery"] },
+    { "slug": "process-mgmt", "vi": "Quản lý tiến trình", "en": "Process Management", "include_tags": ["process-mgmt"] },
+    { "slug": "monitoring", "vi": "Giám sát & log", "en": "Logging & Monitoring", "include_tags": ["logging", "monitoring"] },
+    { "slug": "metrics-visualization", "vi": "Đo lường & biểu đồ", "en": "Metrics & Visualization", "include_tags": ["metrics", "visualization", "metrics-visualization"] },
+    { "slug": "security", "vi": "Bảo mật", "en": "Security & Hardening", "include_tags": ["security", "hardening"] },
+    { "slug": "errors", "vi": "Theo dõi lỗi", "en": "Error Tracking", "include_tags": ["errors"] },
+    { "slug": "documentation", "vi": "Tài liệu", "en": "Documentation", "include_tags": ["documentation", "cms"] }
+  ]
+}

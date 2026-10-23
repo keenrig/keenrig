@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keenrig.com/schemas/infra.schema.json",
+  "title": "InfraVersion",
+  "description": "Bộ image hạ tầng (addon dùng chung) đã pin digest. Tăng infra_version là TÍN HIỆU DUY NHẤT bắt platform dựng lại toàn bộ container addon — nhờ vậy việc nâng cấp hạ tầng là một quyết định tường minh, có thể diff và rollback, thay vì hệ quả ngẫu nhiên của việc tag latest bị đẩy lại. Nội dung file này ghi ra <base>/node/INFRA_VERSION.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["infra_version", "images"],
+  "properties": {
+    "infra_version": { "type": "integer", "minimum": 1 },
+    "images": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]*$" },
+      "additionalProperties": { "$ref": "#/$defs/PinnedImage" }
+    }
+  },
+  "$defs": {
+    "PinnedImage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "tag", "digest"],
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "tag": {
+          "description": "Chỉ để người đọc biết đang ở version nào — runtime kéo image THEO DIGEST.",
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      }
+    }
+  }
+}

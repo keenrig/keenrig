@@ -1,0 +1,30 @@
+{
+  "id": "open-webui",
+  "title": "Open WebUI",
+  "description": "A self-hosted chat interface for AI models, shared by the whole team: accounts and roles, chat history, document and knowledge-base search (RAG), web search and tools. Connects to any OpenAI-compatible API (OpenAI, Anthropic via a gateway, OpenRouter, Groq…) or an Ollama server you run elsewhere; no model is bundled. Runs as a single container: SQLite, uploaded files and the embedding model cache live in one persistent volume. The first account created becomes the administrator. Above 50 users the licence requires the Open WebUI branding to stay visible.",
+  "description_vi": "Giao diện chat với mô hình AI tự host, dùng chung cho cả nhóm: tài khoản và phân quyền, lịch sử chat, tìm trong tài liệu và kho kiến thức (RAG), tìm kiếm web và công cụ. Kết nối với mọi API tương thích OpenAI (OpenAI, Anthropic qua gateway, OpenRouter, Groq…) hoặc một máy chủ Ollama bạn chạy ở nơi khác; không kèm sẵn mô hình nào. Chạy trong một container: SQLite, tệp tải lên và bộ nhớ đệm mô hình embedding nằm trong một volume bền. Tài khoản tạo đầu tiên là quản trị viên. Trên 50 người dùng, giấy phép yêu cầu giữ nguyên thương hiệu Open WebUI.",
+  "version": "0.11.4",
+  "repository": "ghcr.io/open-webui/open-webui",
+  "tag": "v0.11.4",
+  "digest": "sha256:9591b13f13843c7721c2b8eaf7382846c81b3ffe126526d1888d1fed50c6a33f",
+  "http_port": 8080,
+  "env": {
+    "ENABLE_OLLAMA_API": "false",
+    "ANONYMIZED_TELEMETRY": "false",
+    "SCARF_NO_ANALYTICS": "true",
+    "DO_NOT_TRACK": "true"
+  },
+  "secret_env": [
+    "WEBUI_SECRET_KEY"
+  ],
+  "origin_env": "WEBUI_URL",
+  "volumes": [
+    { "name": "data", "path": "/app/backend/data" }
+  ],
+  "min_memory_mb": 2048,
+  "healthcheck_path": "/health",
+  "tags": ["ai"],
+  "icon": "open-webui.svg",
+  "website": "https://openwebui.com/",
+  "source": "https://github.com/open-webui/open-webui"
+}

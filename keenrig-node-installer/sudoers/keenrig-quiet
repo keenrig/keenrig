@@ -1,0 +1,12 @@
+# Tinh chỉnh THẨM MỸ, cài best-effort — không phải quyền hạn.
+#
+# Box gọi các script ở trên rất thường xuyên (nginx-ctl.sh chạy mỗi lần Apply),
+# và mỗi lời gọi sudo để lại một bản ghi trong journal — nhiều tới mức che mất
+# các dòng log có ích. Nó nằm
+# riêng khỏi `sudoers/keenrig` vì sudo-rs (mặc định của Ubuntu từ 25.10, gồm cả
+# 26.04 LTS) không biết setting `syslog` và từ chối NGUYÊN TỆP chứa nó — kéo
+# theo mọi dòng NOPASSWD hợp lệ đứng cùng tệp.
+#
+# get.sh chạy `visudo -c` trên tệp này và BỎ QUA nếu bị từ chối: mất một dòng
+# log gọn gàng là chuyện nhỏ, mất quyền chạy gateway là hỏng máy.
+Defaults:keenrig !syslog

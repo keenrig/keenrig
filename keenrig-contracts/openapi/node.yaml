@@ -1,0 +1,370 @@
+openapi: 3.0.3
+info:
+  title: Keenrig Node API
+  version: 0.1.0
+  description: >
+    Hợp đồng giữa các tiến trình TRÊN CÙNG MỘT instance. keenrig-box là server
+    duy nhất; keenrig-agent và keenrig-ota là client.
+
+
+    VÌ SAO CÓ FILE NÀY. Instance chạy 4 tiến trình, nhưng SQLite không chịu được
+    nhiều tiến trình cùng ghi (MaxOpenConns(1) chỉ serialize trong MỘT tiến
+    trình). Box sở hữu độc quyền platform.db; mọi tiến trình khác lấy dữ liệu
+    qua API này, không mở file DB và không đọc thẳng file log.
+
+
+    ĐỘC LẬP TRANSPORT — điều kiện để nâng nấc mà không sửa code (SYSTEM-DESIGN
+    §2.2). Nấc 0: unix socket platformdata/run/box.sock, xác thực bằng peer
+    credential (SO_PEERCRED). Nấc cao hơn: cùng hợp đồng này trên TCP + mTLS,
+    khác host. Đổi transport là đổi config. Vì thế API không được giả định
+    client ở cùng máy: log là stream qua HTTP chứ không phải đường dẫn file.
+
+
+    ĐỒ THỊ GỌI LÀ DAG. ota → box → proxy admin API; agent → box. Không có chu
+    trình, nên các tiến trình khởi động theo thứ tự bất kỳ, mỗi cái tự retry.
+    Đừng thêm endpoint nào khiến box phải gọi ngược xuống agent hay ota.
+
+servers:
+  - url: http://localhost/node/v1
+    description: unix socket platformdata/run/box.sock (nấc 0)
+  - url: https://{host}:8443/node/v1
+    description: TCP + mTLS (nấc 1+, khi tách host)
+    variables:
+      host: { default: box.internal }
+
+tags:
+  - name: observe
+    description: agent gọi — chỉ đọc
+  - name: lifecycle
+    description: ota gọi — điều khiển vòng đời để thay bin an toàn
+  - name: health
+    description: mọi tiến trình PHẢI phơi 3 endpoint này (quy tắc scale-ready #10)
+
+paths:
+  /healthz:
+    get:
+      tags: [health]
+      summary: Liveness
+      description: >
+        Bắt buộc trên MỌI tiến trình, không riêng box. Đây là điều kiện để
+        supervisor bên ngoài phân biệt "treo" với "đang bận".
+      operationId: nodeHealthz
+      responses:
+        "200": { description: OK, content: { application/json: { schema: { $ref: "#/components/schemas/Status" } } } }
+        "503": { description: Không sẵn sàng, content: { application/json: { schema: { $ref: "#/components/schemas/Status" } } } }
+
+  /readyz:
+    get:
+      tags: [health]
+      summary: Readiness
+      description: Sẵn sàng nhận việc. Ở chế độ HA T1, standby trả 503 cho tới khi promote.
+      operationId: nodeReadyz
+      responses:
+        "200": { description: Sẵn sàng, content: { application/json: { schema: { $ref: "#/components/schemas/Status" } } } }
+        "503": { description: Chưa sẵn sàng, content: { application/json: { schema: { $ref: "#/components/schemas/Status" } } } }
+
+  /metrics:
+    get:
+      tags: [health]
+      summary: Metric định dạng Prometheus
+      operationId: nodeMetrics
+      responses:
+        "200": { description: Text exposition format, content: { text/plain: { schema: { type: string } } } }
+
+  /version:
+    get:
+      tags: [lifecycle]
+      summary: Version đang chạy
+      description: ota so với bản phát hành từ cloud để quyết định có update không.
+      operationId: nodeVersion
+      responses:
+        "200":
+          description: Version
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [process, version]
+                properties:
+                  process: { type: string, example: keenrig-box }
+                  version: { type: string }
+                  infra_version: { type: integer }
+                  started_at: { type: string, format: date-time }
+
+  /apps:
+    get:
+      tags: [observe]
+      summary: Trạng thái mọi app
+      description: >
+        Nguồn để agent dựng app_statuses trong SyncRequest gửi lên cloud.
+        Trả đúng shape của sync.schema.json để agent không phải map lại — sai
+        lệch giữa hai schema sẽ chỉ lộ ra ở phía cloud, rất muộn.
+      operationId: nodeListApps
+      responses:
+        "200":
+          description: Danh sách trạng thái app
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "../jsonschema/sync.schema.json#/$defs/AppStatus"
+
+  /apps/{id}/logs:
+    get:
+      tags: [observe]
+      summary: Stream log của một app
+      description: >
+        Stream qua HTTP, KHÔNG trả đường dẫn file. Đây là điểm mấu chốt để agent
+        tách host được ở nấc sau — trả path là khoá cứng agent vào cùng máy.
+      operationId: nodeAppLogs
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: follow
+          in: query
+          schema: { type: boolean, default: false }
+        - name: tail
+          in: query
+          schema: { type: integer, minimum: 0, default: 200 }
+      responses:
+        "200":
+          description: text/event-stream khi follow=true, ngược lại text/plain
+          content:
+            text/event-stream: { schema: { type: string } }
+            text/plain: { schema: { type: string } }
+        "404": { description: Không tìm thấy app, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+
+  /events:
+    post:
+      tags: [observe]
+      summary: Ghi một event vào audit log
+      description: >
+        agent và ota không ghi thẳng bảng events (không tiến trình nào ngoài box
+        được mở platform.db). Idempotency-Key bắt buộc vì client sẽ retry.
+      operationId: nodeAppendEvent
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action, actor]
+              properties:
+                action: { type: string, example: ota.update_started }
+                actor: { type: string, example: keenrig-ota }
+                subject: { type: string }
+                data: { type: object }
+      responses:
+        "202": { description: Đã ghi nhận }
+        "409": { description: Idempotency-Key đã dùng — coi như thành công }
+
+  /drain:
+    post:
+      tags: [lifecycle]
+      summary: Ngừng nhận việc mới, hoàn tất việc đang chạy
+      description: >
+        ota gọi TRƯỚC khi thay bin/. Box ngừng tick reconcile mới và trả về khi
+        mọi Apply đang chạy đã xong (Apply có thể mất tới 60s vì đợi container
+        Running). Không có bước này, update sẽ cắt ngang một lần deploy dở dang.
+
+
+        Idempotent: gọi lại khi đã drain trả 200 ngay.
+      operationId: nodeDrain
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                timeout_s: { type: integer, minimum: 1, default: 60 }
+      responses:
+        "200":
+          description: Đã drain
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  in_flight: { type: integer, description: số app còn đang apply lúc hết timeout }
+        "503": { description: Hết timeout mà còn việc chạy dở — ota PHẢI huỷ update, không được thay bin }
+
+  /resume:
+    post:
+      tags: [lifecycle]
+      summary: Nhận việc trở lại
+      description: ota gọi khi huỷ update giữa chừng (rollback hoặc drain thất bại).
+      operationId: nodeResume
+      responses:
+        "200": { description: Đã tiếp tục }
+
+  /admin-tickets:
+    post:
+      tags: [lifecycle]
+      summary: Nhận vé "Mở Admin ↗" do control plane phát (CON-13)
+      description: >
+        agent gọi đường này khi nhận lệnh `mint_admin_token`. Thân request chỉ
+        mang HASH của vé (sha256 hex) — vé TRẦN đi thẳng từ Console tới trình
+        duyệt và chỉ xuất hiện lần nữa ở `POST /_keenrig/admin-session` trên
+        cổng HTTP của box.
+
+
+        Box giữ hash trong BỘ NHỚ tới khi hết hạn và kẹp hạn xuống trần 10 phút
+        của SEC-06, kể cả khi `expires_at` xa hơn. Idempotent theo hash: agent
+        retry một lệnh đã giao không tạo vé thứ hai.
+      operationId: nodeAcceptAdminTicket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token_hash]
+              properties:
+                token_hash:
+                  type: string
+                  pattern: "^[0-9a-f]{64}$"
+                  description: sha256 hex của vé trần
+                expires_at:
+                  type: string
+                  format: date-time
+                  description: hạn của hàng lệnh; box kẹp xuống tối đa 10 phút
+      responses:
+        "202": { description: Đã ghi nhận }
+        "400": { description: hash sai định dạng, hoặc quá nhiều vé đang chờ }
+        "501": { description: Instance chưa bật đăng nhập — không có phiên nào để cấp }
+
+  /license:
+    put:
+      tags: [lifecycle]
+      summary: Thay license của instance (M5, LC-01)
+      description: >
+        agent gọi đường này sau khi kéo license mới từ `GET /agent/v1/license`
+        của cloud. Thân request là NGUYÊN VĂN phong bì JSON cloud trả về
+        (`license.schema.json` v2) — agent không parse, không dựng lại: chữ ký
+        Ed25519 ký trên byte, và một lần parse-rồi-dựng-lại là một chỗ chữ ký
+        ngừng khớp.
+
+
+        Box verify chữ ký TRƯỚC khi ghi; một phong bì không verify được không
+        bao giờ chạm đĩa. Ghi nguyên tử (tmp + rename) vì box đọc lại file này
+        ở mỗi lần admission. PUT chứ không POST: license là một tài nguyên được
+        thay thế trọn vẹn, idempotent theo nội dung.
+      operationId: nodeInstallLicense
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Phong bì license — xem jsonschema/license.schema.json
+      responses:
+        "200": { description: Đã verify và ghi }
+        "400": { description: Chữ ký sai, phong bì hỏng, hoặc không ghi được — lý do nguyên văn trong body }
+        "501": { description: Box này không nhận license qua node API }
+
+  /parent-domain:
+    put:
+      tags: [lifecycle]
+      summary: Nhận tên miền gốc do control plane cấp cho môi trường
+      description: >
+        agent gọi đường này khi phản hồi `POST /agent/v1/sync` mang
+        `parent_domain` (kèm `domain_mode`). Tên miền gốc của một môi trường là
+        QUYẾT ĐỊNH CỦA CLOUD (luật chủ dự án 2026-09-07): box chỉ nhận và hiển
+        thị ở Admin UI, không có đường nào trên control API `/api/v1` đặt được
+        nó. Đây là con đường DUY NHẤT một tên miền đi vào box từ bên ngoài, và
+        nó chỉ mở trên node API — tức chỉ agent cùng máy gọi được.
+
+
+        Box chuẩn hoá (chữ thường, bỏ dấu chấm cuối) và từ chối wildcard, chuỗi
+        rỗng, nhãn rỗng — cùng luật với FQDN của app. Ghi kèm nguồn `cloud`:
+        `KEENRIG_DOMAIN` (đường `--domain` của trình cài, standalone) không đè
+        được giá trị cloud ở lần khởi động sau. Idempotent theo giá trị: agent
+        gửi lại cùng tên ở mỗi nhịp là vô hại, và agent chỉ gửi khi giá trị đổi.
+      operationId: nodeSetParentDomain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [parent_domain]
+              properties:
+                parent_domain:
+                  type: string
+                  format: hostname
+                  example: demo.acme.keenrig.com
+                mode:
+                  type: string
+                  enum: [keenrig, custom]
+                  description: keenrig = dưới miền của Keenrig (cloud quản DNS + cert); custom = tên riêng của khách
+      responses:
+        "200": { description: Đã lưu, content: { application/json: { schema: { $ref: "#/components/schemas/Status" } } } }
+        "400": { description: Thân request hỏng hoặc tên miền không hợp lệ — lý do nguyên văn trong body, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+        "501": { description: Box này không nhận tên miền qua node API, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  /cloud-link:
+    put:
+      tags: [lifecycle]
+      summary: Nhận trạng thái pair với control plane, từ agent
+      description: >
+        agent gọi đường này SAU một lần `POST /agent/v1/sync` THÀNH CÔNG, có
+        tiết chế (lần đầu ngay, rồi nhiều nhất một lần mỗi phút). Agent là tiến
+        trình DUY NHẤT biết máy này đã pair — nó đọc `KEENRIG_CLOUD_URL` +
+        `KEENRIG_ENV_ID` từ agent.env và là bên nói chuyện với cloud; box chỉ
+        ghi lại để Admin UI hiển thị (`GET /api/v1/cloud`). Không có đường này
+        thì Admin UI hoặc phải bịa ("chưa pair" viết cứng, lỗi đo 2026-09-19)
+        hoặc phải đoán qua file của tiến trình khác.
+
+
+        Chỉ gửi sau khi sync THÀNH CÔNG: `last_sync_at` là bằng chứng cloud vừa
+        trả lời, không phải "agent vừa thử". Box so mốc đó với đồng hồ của nó
+        khi Admin UI hỏi: quá 5 phút → `stale` — mất cloud phải được NÓI RA
+        (AG-08), không phải giấu sau một pill xanh cũ. Idempotent theo giá trị;
+        box không ghi vào đây khi agent im lặng, nên một box chưa từng pair
+        không có khoá nào.
+      operationId: nodeSetCloudLink
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [cloud_url, env_id, last_sync_at]
+              properties:
+                cloud_url:
+                  type: string
+                  format: uri
+                  description: Gốc control plane agent đang poll (http/https, có host)
+                  example: https://keenrig.com
+                env_id:
+                  type: string
+                  description: Định danh môi trường trên cloud (KEENRIG_ENV_ID)
+                  example: env_01J8ZK
+                last_sync_at:
+                  type: string
+                  format: date-time
+                  description: Thời điểm lần sync THÀNH CÔNG gần nhất, RFC3339
+      responses:
+        "200": { description: Đã lưu, content: { application/json: { schema: { $ref: "#/components/schemas/Status" } } } }
+        "400": { description: Thân request hỏng, URL không http(s)/không host, env_id rỗng hoặc mốc thời gian không đọc được — lý do nguyên văn trong body, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+        "501": { description: Box này không nhận trạng thái pair qua node API, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+
+components:
+  schemas:
+    Status:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string, example: ok }
+        detail: { type: string }
+    Error:
+      type: object
+      properties:
+        error: { type: string }

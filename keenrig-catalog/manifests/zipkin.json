@@ -1,0 +1,18 @@
+{
+  "id": "zipkin",
+  "title": "Zipkin",
+  "description": "Collects and displays distributed traces. The default configuration keeps traces IN MEMORY — no disk needed, which is also why it was the first app imported from devopsbookmarks without losing data on redeploy.",
+  "description_vi": "Máy chủ thu thập và xem distributed trace. Cấu hình mặc định lưu trace TRONG BỘ NHỚ — không cần đĩa, và đó cũng là lý do nó là app đầu tiên nhập được từ devopsbookmarks mà không mất dữ liệu khi deploy lại.",
+  "version": "3",
+  "repository": "docker.io/openzipkin/zipkin",
+  "tag": "3",
+  "digest": "sha256:d17e856dcbba7ffeefbbfc252f89ab78a4ab6faed47e646d46daad78f91b5ee2",
+  "http_port": 9411,
+  "min_memory_mb": 512,
+  "healthcheck_path": "/health",
+  "tags": [
+    "monitoring"
+  ],
+  "website": "https://zipkin.io/",
+  "source": "https://github.com/openzipkin/zipkin"
+}

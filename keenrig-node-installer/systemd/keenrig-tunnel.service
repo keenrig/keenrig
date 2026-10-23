@@ -1,0 +1,47 @@
+# keenrig-tunnel — công khai một box KHÔNG có IP công khai, qua Cloudflare.
+#
+# Chỉ được cài khi lệnh cài ĐO ĐƯỢC là 80/443 không vào được từ Internet. Máy
+# có IP công khai thì lưu lượng đi thẳng và unit này không tồn tại — thêm một
+# chặng khi không cần là thêm một điểm hỏng và một bên thứ ba đọc được dữ liệu.
+[Unit]
+Description=Keenrig tunnel (Cloudflare)
+Documentation=https://keenrig.com/docs
+# Wants chứ KHÔNG Requires keenrig-box: box chưa lên thì tunnel vẫn nên dựng và
+# đợi — cloudflared giữ kết nối, còn request đầu tiên tới sớm thì nhận lỗi từ
+# box chứ không phải từ một tunnel không tồn tại.
+Wants=network-online.target keenrig-box.service
+After=network-online.target keenrig-box.service
+
+[Service]
+Type=simple
+User=keenrig
+Group=keenrig
+Environment=KEENRIG_BASE=/var/lib/keenrig
+# Khoá API nằm ở đây, root:root 0600. systemd đọc nó TRƯỚC khi hạ quyền, nên
+# tiến trình nhận được biến mà user `keenrig` không đọc được file — cùng cách
+# keenrig-agent làm. KHÔNG có dấu `-`: thiếu file nghĩa là box chưa ghép cloud,
+# và khi đó tunnel không có chỗ để báo lên, nên nó PHẢI hỏng to tiếng.
+EnvironmentFile=/etc/keenrig/agent.env
+ExecStart=/var/lib/keenrig/scripts/tunnel.sh
+
+# Restart=always là một phần của thiết kế, không phải lưới đỡ.
+#
+# Quick tunnel nhận hostname MỚI mỗi lần khởi động. Vòng đời bình thường của
+# unit này là: cloudflared chết → script báo "không còn tunnel" → systemd khởi
+# động lại → hostname mới → báo lên. Không có bước thủ công nào, và control
+# plane thấy đúng hiện trạng ở từng khoảnh khắc.
+Restart=always
+RestartSec=5
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+# Không cần ghi vào đâu cả: script dùng mktemp, và PrivateTmp cho nó /tmp riêng.
+
+[Install]
+WantedBy=multi-user.target

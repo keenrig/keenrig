@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keenrig.com/schemas/addon.schema.json",
+  "title": "AddonConfig",
+  "description": "Credential platform cấp cho MỘT app khi bật MỘT addon. desired.schema.json chỉ nói app MUỐN addon nào (enabled true/false); file này là kết quả cấp phát — DB/user/password riêng của app đó bên trong service dùng chung, cùng bộ biến môi trường sẽ được inject vào container. Giá trị nhạy cảm không nằm ở đây mà nằm trong bảng secrets (trỏ bằng secret_ref).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["app_id", "addon", "env"],
+  "properties": {
+    "app_id": { "type": "string", "minLength": 1 },
+    "addon": { "$ref": "#/$defs/AddonKind" },
+    "env": {
+      "description": "Biến môi trường inject vào container app. Namespace KEENRIG_ là hợp đồng công khai với image app — đổi tên biến là breaking change.",
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^KEENRIG_[A-Z0-9_]+$" },
+      "additionalProperties": { "type": "string" }
+    },
+    "secret_ref": {
+      "description": "Khoá tra cứu trong bảng secrets (đã mã hoá AES-256-GCM) chứa password/URL đầy đủ.",
+      "type": "string",
+      "minLength": 1
+    },
+    "provisioned_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "AddonKind": {
+      "description": "Addon đã đăng ký. Thêm giá trị mới = phải có impl đủ 5 method của interface Addon và pass conformance suite.",
+      "enum": ["postgres", "redis"]
+    }
+  }
+}

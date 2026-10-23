@@ -1,0 +1,17 @@
+{
+  "id": "whoami",
+  "title": "Whoami",
+  "description": "Returns the headers and address of each request. A diagnostic app: it shows what the gateway forwards to the container, so when routing goes wrong this is where you see why.",
+  "description_vi": "Trả về header và địa chỉ của request. App chẩn đoán: nó cho thấy gateway đang chuyển tiếp gì tới container, nên khi định tuyến sai thì đây là chỗ nhìn ra nguyên nhân.",
+  "version": "1.10.4",
+  "repository": "docker.io/traefik/whoami",
+  "tag": "v1.10.4",
+  "digest": "sha256:1699d99cb4b9acc17f74ca670b3d8d0b7ba27c948b3445f0593b58ebece92f04",
+  "http_port": 80,
+  "min_memory_mb": 64,
+  "healthcheck_path": "/health",
+  "tags": ["chẩn-đoán"],
+  "icon": "whoami.svg",
+  "website": "https://github.com/traefik/whoami",
+  "source": "https://github.com/traefik/whoami"
+}

@@ -1,0 +1,118 @@
+{
+  "docker.elastic.co/elasticsearch/elasticsearch:8.15.3": {
+    "digest": "sha256:01c1732062b4a846c5ca687b0094b89bad0bfed00c6d71626db32fb8f3131a78",
+    "resolved_at": "2026-08-15T17:01:03.820Z"
+  },
+  "docker.elastic.co/kibana/kibana:8.15.3": {
+    "digest": "sha256:43dffccc4085ebca96ed8a8da30116fa3a246c9e204b028949d2a8e733544987",
+    "resolved_at": "2026-08-15T17:01:18.886Z"
+  },
+  "docker.io/1dev/server:11.0.9": {
+    "digest": "sha256:bafb6866da88660c8e473b0641fe75d6844e70fca3e2c93438275c2d599561d7",
+    "resolved_at": "2026-08-15T17:01:20.605Z"
+  },
+  "docker.io/buildbot/buildbot-master:v4.1.0": {
+    "digest": "sha256:a5d9753baf31c684fd7933ca8ac7cd0d29b522f791fac3b97c2169ad5fe2d5e3",
+    "resolved_at": "2026-08-15T17:00:57.919Z"
+  },
+  "docker.io/chartmuseum/chartmuseum:v0.12.0": {
+    "digest": "sha256:38c5ec3b30046d7a02a55b4c8bd8a0cd279538c2e36090973798a858e900b18e",
+    "resolved_at": "2026-08-15T17:02:32.892Z"
+  },
+  "docker.io/drone/drone:2": {
+    "digest": "sha256:55897c8fb22ddc5dff6be4c85b7fbc3ce07c34fe1f03d7cf2cbbfd095833fca6",
+    "resolved_at": "2026-08-15T17:01:01.645Z"
+  },
+  "docker.io/errbit/errbit:latest": {
+    "digest": "sha256:8ab62f8579cb51f9f78f0f42774bf32188c23cf177731805a12fe849e0782f10",
+    "resolved_at": "2026-08-15T17:01:04.690Z"
+  },
+  "docker.io/gerritcodereview/gerrit:3.10.3": {
+    "digest": "sha256:38cfb39b8a36b1129ff1224ff730759d6539208ad88b58909f0425e8638aefc6",
+    "resolved_at": "2026-08-15T17:01:05.633Z"
+  },
+  "docker.io/gitbucket/gitbucket:4.38.4": {
+    "digest": "sha256:0a53c4d606027661d08530d83143e3a2863b4b320ee436aaa088025d737be0dc",
+    "resolved_at": "2026-08-15T17:02:34.267Z"
+  },
+  "docker.io/gitea/gitea:1.22": {
+    "digest": "sha256:538658de667c5d098a274f2f63aa6ec891d88f670cdd5282cf27221ba747dda4",
+    "resolved_at": "2026-08-15T17:01:07.338Z"
+  },
+  "docker.io/gitlab/gitlab-ce:17.6.1-ce.0": {
+    "digest": "sha256:20d93c8fa990bf1a4494c16396ca820e41edd88bbc710a0e9723c5d0b2bf2521",
+    "resolved_at": "2026-08-15T17:02:35.133Z"
+  },
+  "docker.io/gocd/gocd-server:v24.3.0": {
+    "digest": "sha256:4deaf609348a9153cb93699eb26e5d2cce206537572b05ad232b7fc8427cb72f",
+    "resolved_at": "2026-08-15T17:01:09.994Z"
+  },
+  "docker.io/gogs/gogs:0.13": {
+    "digest": "sha256:2fed2f7ce8dcf7bfdde3e6c309d934254ae8eb1cf8053a3f394baa184461dbfa",
+    "resolved_at": "2026-08-15T17:01:10.873Z"
+  },
+  "docker.io/grafana/grafana:11.3.0": {
+    "digest": "sha256:a0f881232a6fb71a0554a47d0fe2203b6888fe77f4cefb7ea62bed7eb54e13c3",
+    "resolved_at": "2026-08-15T17:01:12.182Z"
+  },
+  "docker.io/graphiteapp/graphite-statsd:1.1.10-5": {
+    "digest": "sha256:ceb163a8f237ea1a5d2839589f6b5b7aef05153b12b05ed9fe3cec12fe10cf43",
+    "resolved_at": "2026-08-15T17:01:13.064Z"
+  },
+  "docker.io/graylog/graylog:6.1": {
+    "digest": "sha256:c43d68d0af1d4decc7fa63effe0a065d04f1eca4b7b13d160ac8c501452cf3fe",
+    "resolved_at": "2026-08-15T17:01:13.963Z"
+  },
+  "docker.io/hashicorp/consul:1.20": {
+    "digest": "sha256:200471c74bc0965cd20c81eacc31a209873d5d9e599fe637ceb856b0cbbc518d",
+    "resolved_at": "2026-08-15T17:01:00.737Z"
+  },
+  "docker.io/hashicorp/vault:1.18": {
+    "digest": "sha256:750bb37c1638fa194ab37053a81618c61bb0491ddec6fccac87c07a8e6cd8166",
+    "resolved_at": "2026-08-15T17:01:25.104Z"
+  },
+  "docker.io/healthchecks/healthchecks:v3.10": {
+    "digest": "sha256:1b1dccd945c9cfe102947927065bbf26d100d9852830169c33de3ede82ee8e4b",
+    "resolved_at": "2026-08-15T17:01:14.841Z"
+  },
+  "docker.io/jenkins/jenkins:2.479.2-lts": {
+    "digest": "sha256:e728082cd6a2710840ef7d9fdcdc93408eb488aa05d10bc92f4454254e22cc4e",
+    "resolved_at": "2026-08-15T17:01:16.605Z"
+  },
+  "docker.io/library/influxdb:2.7": {
+    "digest": "sha256:b8d940ca9376f85118260f5b6bd236b8a00b1749c3350c5578d4cde8e27f31f2",
+    "resolved_at": "2026-08-15T17:01:15.711Z"
+  },
+  "docker.io/netdata/netdata:v2.11.0": {
+    "digest": "sha256:c45c71eb23ff3f1012bcda7832bf08c0b09954363557e84511bcfaf6cafa3aa8",
+    "resolved_at": "2026-08-15T17:02:36.013Z"
+  },
+  "docker.io/nicolargo/glances:4.2.0-full": {
+    "digest": "sha256:3bad0ddef1dbbdb9f5b8bcc5ba8ce13fcd8f1aff8c5f9a6f37bfebbd2a83628d",
+    "resolved_at": "2026-08-15T17:01:09.087Z"
+  },
+  "docker.io/openzipkin/zipkin:3": {
+    "digest": "sha256:d17e856dcbba7ffeefbbfc252f89ab78a4ab6faed47e646d46daad78f91b5ee2",
+    "resolved_at": "2026-08-15T17:01:26.852Z"
+  },
+  "docker.io/owncloud/server:10.15.0": {
+    "digest": "sha256:51d9b74fc2a81875c0ecc643d49f83e0453c83b0d039fb564b8ca40ec5d711c2",
+    "resolved_at": "2026-08-15T17:01:21.493Z"
+  },
+  "docker.io/prom/prometheus:v3.0.1": {
+    "digest": "sha256:565ee86501224ebbb98fc10b332fa54440b100469924003359edf49cbce374bd",
+    "resolved_at": "2026-08-15T17:01:22.366Z"
+  },
+  "docker.io/redash/redash:25.1.0": {
+    "digest": "sha256:3326aa6d23bc073be8bdfa0ffadbd151a652d06d4d7e47af600f7460707ab872",
+    "resolved_at": "2026-08-15T17:01:23.243Z"
+  },
+  "docker.io/rundeck/rundeck:5.8.0": {
+    "digest": "sha256:8aebd86c96f21ec11f96c648f682d872cc3894077a6c64f1ede286aec4fb7c54",
+    "resolved_at": "2026-08-15T17:01:24.214Z"
+  },
+  "docker.io/verdaccio/verdaccio:6": {
+    "digest": "sha256:5a13d03808135726efde69a5a16fce1e1f724a961d6d647177c22da83c0af5cd",
+    "resolved_at": "2026-08-15T17:01:25.977Z"
+  }
+}

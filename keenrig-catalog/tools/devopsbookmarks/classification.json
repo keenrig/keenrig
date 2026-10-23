@@ -1,0 +1,68 @@
+{
+  "_comment": [
+    "Vì sao một entry devopsbookmarks KHÔNG bao giờ thành manifest được.",
+    "",
+    "Đây là danh sách CÓ CHỦ ĐÍCH KHÔNG ĐẦY ĐỦ. Chỉ ghi những cái chắc chắn;",
+    "phần còn lại để importer đánh 'unmapped' và liệt kê trong REPORT.md để người",
+    "khảo sát sau. Đoán bừa một nhãn ở đây tệ hơn là để trống: 'unmapped' nói",
+    "'chưa ai xem', còn một nhãn sai nói 'đã xem rồi, bỏ đi' — và không ai xem lại.",
+    "",
+    "  saas           Dịch vụ thương mại, không có bản self-host chạy container.",
+    "  cli            Công cụ dòng lệnh hoặc thư viện. Không phục vụ HTTP, nên",
+    "                 không có http_port để mà khai.",
+    "  host-platform  Bản thân nó LÀ runtime/orchestrator, chạy ở tầng host.",
+    "                 Đóng gói nó thành một app trong container là lộn ngược tầng.",
+    "  k8s-only       Chỉ chạy như workload/CRD trong Kubernetes.",
+    "  multi-container Cần nhiều container phối hợp; một manifest một image không",
+    "                 diễn đạt được.",
+    "  dead           Dự án ngừng phát triển, không còn image phát hành."
+  ],
+
+  "saas": [
+    "Akeyless", "appveyor", "azuredevops", "bitbucket", "bitrise", "buildkite",
+    "bugsnag", "cam", "ccm", "circleci", "cloudrepo", "cloudsmith-package",
+    "configcat", "coveralls", "cronitor", "datadog", "dead-mans-snitch", "dist",
+    "elmah-io", "github", "google-docs", "hackpad", "hexadecimal", "honeybadger",
+    "instrumental", "intelliment", "monitoring", "nagios-log-server",
+    "nagios-network-analyzer-server", "nagios-xi", "nevercode", "notabug",
+    "okmeter", "Oracle-Wercker", "overops", "packagecloud", "prevoty",
+    "quickcheck-ci", "raygun", "ReleaseIQ", "rollbar", "semaphore",
+    "server-density", "Shippable", "signalfx", "snitch", "splunk",
+    "stack-hunter", "tinfoil-security", "travis-ci", "vaddy"
+  ],
+
+  "cli": [
+    "aap", "ansible", "aptly", "basebox-packer", "batou", "beats", "berkshelf",
+    "bento", "bolt", "boxen", "boxstarter", "capistrano", "cfengine", "checkov",
+    "chef", "chocolatey", "cft", "collectd", "condep", "credmgr", "deploykit",
+    "deployinator", "deploystudio", "fabric", "fai", "ffwd", "fig", "fluentd",
+    "fog", "fpm", "gauntlt", "gitolite", "habitat", "hardening-io", "jclouds",
+    "jmxtrans", "libcloud", "logstash", "mgmt", "mina", "nixops",
+    "nxlog", "orc", "ossec", "packer", "pallet", "puppet", "puppet-razor",
+    "r10k", "rex", "salt-stack", "sequencer", "serf", "shutit", "simp", "snort",
+    "statsd", "sunzi", "supervisord", "terraform", "testssl-sh", "vagrant",
+    "vaurien", "webhook"
+  ],
+
+  "host-platform": [
+    "boot2docker", "cloudstack", "containerd", "coreos", "crio", "docker",
+    "dokku", "flynn", "juju", "kubernetes", "lxd", "marathon", "minikube",
+    "nomad", "okd", "opennebula", "openshift", "openstack", "osv", "podman",
+    "rancher", "rtk", "tsuru", "weave"
+  ],
+
+  "k8s-only": [
+    "argo-cd", "crossplane", "draft", "helm", "jenkinsx", "knative", "monocular",
+    "prow", "skaffolddev", "tekton", "werf"
+  ],
+
+  "multi-container": [
+    "foreman", "harbor", "sentry", "spinnaker", "stackstorm"
+  ],
+
+  "dead": [
+    "amon", "apache-allura", "awsbox", "codeine",
+    "https://msdn.microsoft.com/en-us/powershell/dsc/overview", "phpci",
+    "sovereign", "sshkeybox", "Vizceral"
+  ]
+}

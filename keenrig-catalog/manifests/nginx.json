@@ -1,0 +1,17 @@
+{
+  "id": "nginx",
+  "title": "Nginx",
+  "description": "A static web server. Use it to confirm a freshly installed instance works: it is light, starts in under a second, and its default page says plainly that it is running.",
+  "description_vi": "Máy chủ web tĩnh. Dùng để kiểm chứng một instance vừa cài: nhẹ, khởi động dưới một giây, và trang mặc định nói rõ nó đang chạy.",
+  "version": "1.27.4",
+  "repository": "docker.io/library/nginx",
+  "tag": "1.27.4-alpine",
+  "digest": "sha256:4ff102c5d78d254a6f0da062b3cf39eaf07f01eec0927fd21e219d0af8bc0591",
+  "http_port": 80,
+  "min_memory_mb": 64,
+  "healthcheck_path": "/",
+  "tags": ["web"],
+  "icon": "nginx.svg",
+  "website": "https://nginx.org",
+  "source": "https://github.com/nginx/nginx"
+}

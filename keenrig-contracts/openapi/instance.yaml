@@ -1,0 +1,515 @@
+openapi: 3.0.3
+info:
+  title: Keenrig Instance API
+  version: 0.1.0
+paths:
+  /api/v1/instance:
+    get:
+      summary: Thông tin instance mà Admin UI cần TRƯỚC khi đăng nhập
+      description: >
+        KHÔNG đòi xác thực (AD-07): trả về đúng tên miền gốc — thứ người mở
+        trang đã đọc được từ thanh địa chỉ — và màn thiết lập lần đầu chạy khi
+        chưa có tài khoản nào.
+
+
+        CHỈ ĐỌC, và đó là thiết kế chứ không phải thiếu sót: tên miền gốc của
+        một môi trường là quyết định của keenrig-cloud, đi xuống box qua
+        `/agent/v1/sync` → node API `PUT /parent-domain`. Không có PUT/POST/PATCH
+        nào ở đường này — Admin UI là nơi nhận thông tin, không phải nơi đặt.
+      operationId: getInstance
+      security: []
+      responses:
+        "200":
+          description: Tên miền gốc và nguồn của nó
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Instance"
+  /api/v1/cloud:
+    get:
+      summary: Trạng thái pair với Keenrig Cloud, như agent báo về
+      description: >
+        ĐÒI phiên đăng nhập (scope `apps:read`, cùng scope với danh sách app):
+        khác `/instance`, đường này lộ URL control plane và định danh môi
+        trường — không phải thứ đọc được từ thanh địa chỉ.
+
+
+        Nguồn sự thật là AGENT, không phải box: agent gửi `PUT /cloud-link`
+        (node API) sau mỗi lần sync thành công, có tiết chế. Box chỉ ghi và
+        tính `state` lúc được hỏi: `standalone` = chưa có gì được ghi (máy
+        chưa từng pair, hoặc agent chưa báo lần nào); `synced` = lần sync
+        thành công gần nhất trong 5 phút; `stale` = đã pair nhưng agent không
+        chạm được cloud quá 5 phút — mất cloud phải hiện ra (AG-08), app vẫn
+        chạy. Admin UI vẽ đúng ba trạng thái đó, không viết cứng cái nào.
+      operationId: getCloudLink
+      responses:
+        "200":
+          description: Trạng thái pair
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CloudLink"
+        "401":
+          description: Chưa đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "501":
+          description: Box này chưa nối trạng thái pair (binary cũ)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/v1/cloud/pair:
+    post:
+      summary: Ghép máy đã cài standalone với Console bằng join token
+      description: >
+        Scope `admin`. Box nhờ `pair.sh` (root, qua sudo) đổi token lấy khoá
+        agent, ghi /etc/keenrig/agent.env rồi restart agent — cùng việc
+        `get.sh --join`. 202 nghĩa là Console đã nhận máy; `GET /cloud` chuyển
+        sang `synced` khi agent sync lần đầu, không phải ngay lúc này.
+        Control plane lấy từ KEENRIG_CLOUD_URL của box, không nhận qua request.
+      operationId: pairCloud
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties:
+                token:
+                  type: string
+                  pattern: "^[0-9a-f]{64}$"
+                  description: Join token Console phát (một lần dùng, 30 phút).
+      responses:
+        "202":
+          description: Console đã nhận máy; agent đang khởi động lại
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [env_id]
+                properties:
+                  env_id:
+                    type: string
+        "400":
+          description: Không phải join token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Chưa đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Không phải admin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "501":
+          description: Box chưa có pair.sh — dùng lệnh cài kèm --join
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: Console từ chối token (hết hạn, đã dùng) — thông điệp viết cho người dùng
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/v1/apps:
+    get:
+      summary: List apps
+      operationId: listApps
+      responses:
+        "200":
+          description: Danh sách app
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/App"
+    post:
+      summary: Create app
+      operationId: createApp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [slug, desired]
+              properties:
+                slug:
+                  type: string
+                desired:
+                  $ref: "#/components/schemas/Desired"
+      responses:
+        "201":
+          description: App đã tạo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/App"
+        "409":
+          description: Slug đã tồn tại
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/v1/apps/{id}:
+    get:
+      summary: Get app
+      operationId: getApp
+      parameters:
+        - $ref: "#/components/parameters/AppID"
+      responses:
+        "200":
+          description: App
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/App"
+        "404":
+          description: Không tìm thấy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Request app deletion (bất đồng bộ, 2 pha)
+      description: >
+        Trả 202 chứ KHÔNG phải 204. Lúc response về, app đã biến mất khỏi mọi
+        truy vấn nhưng container thì chưa: reconciler gọi runtime.Remove rồi mới
+        purge row ở tick sau. Trả 204 sẽ khiến UI báo "đã xoá" trong khi app vẫn
+        đang phục vụ request.
+      operationId: deleteApp
+      parameters:
+        - $ref: "#/components/parameters/AppID"
+      responses:
+        "202":
+          description: Đã nhận yêu cầu xoá; container dọn bất đồng bộ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+        "404":
+          description: Không tìm thấy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/v1/apps/{id}/desired:
+    patch:
+      summary: Update desired state
+      operationId: updateDesired
+      parameters:
+        - $ref: "#/components/parameters/AppID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Desired"
+      responses:
+        "200":
+          description: Desired đã cập nhật
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  desired_rev:
+                    type: integer
+                    format: int64
+        "400":
+          description: Desired không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Không tìm thấy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/v1/apps/{id}/domains:
+    get:
+      summary: List domains của app
+      operationId: listAppDomains
+      parameters:
+        - $ref: "#/components/parameters/AppID"
+      responses:
+        "200":
+          description: Danh sách domain (primary xếp đầu)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Domain"
+        "404":
+          description: Không tìm thấy app
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Gắn FQDN vào app
+      operationId: addAppDomain
+      parameters:
+        - $ref: "#/components/parameters/AppID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fqdn]
+              properties:
+                fqdn:
+                  type: string
+                is_primary:
+                  type: boolean
+      responses:
+        "201":
+          description: Đã gắn
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Domain"
+        "400":
+          description: FQDN không hợp lệ, hoặc gateway không đỡ được cấu hình này
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: FQDN đã có chủ, hoặc app đã có domain chính khác
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/v1/domains/{fqdn}:
+    delete:
+      summary: Gỡ FQDN
+      operationId: removeDomain
+      parameters:
+        - name: fqdn
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Đã gỡ
+        "404":
+          description: Không tìm thấy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/v1/events:
+    get:
+      summary: Audit log gần nhất
+      operationId: listEvents
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+            maximum: 500
+      responses:
+        "200":
+          description: Event mới nhất trước
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+  /healthz:
+    get:
+      summary: Liveness probe
+      operationId: healthz
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+        "503":
+          description: Store không sẵn sàng
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+  /readyz:
+    get:
+      summary: Readiness probe
+      operationId: readyz
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+        "503":
+          description: Chưa sẵn sàng
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        Mọi route /api/v1 đều yêu cầu scope (authz). 401 = chưa xác thực (đi
+        đăng nhập lại), 403 = đã xác thực nhưng thiếu scope (đừng thử nữa).
+        M1 dùng bootstrap token scope admin; T10 thay bằng session + TOTP.
+  parameters:
+    AppID:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    Instance:
+      type: object
+      required: [parent_domain, parent_domain_source, domain_mode]
+      properties:
+        parent_domain:
+          type: string
+          description: Tên miền gốc — Admin ở `admin.<parent>`, app ở `<app>.<parent>`. Rỗng = chưa có.
+          example: demo.acme.keenrig.com
+        parent_domain_source:
+          type: string
+          enum: ["", cloud, local]
+          description: >
+            cloud = do keenrig-cloud cấp qua agent (Console quản, Admin chỉ
+            hiển thị); local = từ `--domain` của trình cài (KEENRIG_DOMAIN,
+            đường standalone); rỗng = chưa có tên miền.
+        domain_mode:
+          type: string
+          enum: ["", keenrig, custom]
+          description: keenrig = dưới miền của Keenrig; custom = tên riêng của khách; rỗng = không biết (nguồn local hoặc chưa có).
+    CloudLink:
+      type: object
+      required: [paired, cloud_url, env_id, last_sync_at, state]
+      properties:
+        paired:
+          type: boolean
+          description: Đã có lần agent báo sync thành công. false ⇔ state=standalone.
+        cloud_url:
+          type: string
+          description: Gốc control plane agent poll. Rỗng khi chưa pair.
+          example: https://keenrig.com
+        env_id:
+          type: string
+          description: Định danh môi trường trên cloud. Rỗng khi chưa pair.
+        last_sync_at:
+          type: string
+          description: RFC3339 của lần sync THÀNH CÔNG gần nhất agent báo. Rỗng khi chưa pair.
+        state:
+          type: string
+          enum: [standalone, synced, stale]
+          description: standalone = chưa pair; synced = sync trong 5 phút; stale = quá 5 phút không chạm cloud (AG-08 — phải nói ra).
+    App:
+      type: object
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        desired:
+          $ref: "#/components/schemas/Desired"
+        desired_rev:
+          type: integer
+          format: int64
+        applied_rev:
+          type: integer
+          format: int64
+        status:
+          type: object
+          nullable: true
+        endpoints:
+          description: Địa chỉ nội bộ các replica đang chạy; do reconciler ghi, chỉ đọc.
+          type: array
+          items:
+            $ref: "#/components/schemas/Endpoint"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Desired:
+      $ref: "../jsonschema/desired.schema.json"
+    Endpoint:
+      type: object
+      properties:
+        host:
+          type: string
+          example: 172.20.0.2
+        port:
+          type: integer
+    Domain:
+      type: object
+      properties:
+        app_id:
+          type: string
+        fqdn:
+          type: string
+        is_primary:
+          type: boolean
+        cert_ref:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        action:
+          type: string
+        actor:
+          type: string
+        subject:
+          type: string
+        data:
+          type: object
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+    Status:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok

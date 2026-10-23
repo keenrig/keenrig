@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keenrig.com/schemas/sync.schema.json",
+  "$defs": {
+    "AppStatus": {
+      "type": "object",
+      "required": ["app_id", "state"],
+      "properties": {
+        "app_id": { "type": "string" },
+        "slug": { "type": "string" },
+        "state": { "enum": ["deploying", "running", "stopped", "error", "unknown"] },
+        "desired_rev": { "type": "integer" },
+        "applied_rev": { "type": "integer" },
+        "health": { "enum": ["healthy", "unhealthy", "unknown"] },
+        "message": { "type": "string" },
+        "domains": {
+          "$comment": "Ten mien app dang phuc vu. Cloud CAN chung de xin chung chi cho dung nhung ten do — suy ra bang '<slug>.<parent>' chi dung voi quy uoc mac dinh, va sai im lang voi domain tuy chinh. Vang truong = app chua co ten mien nao, mot trang thai hop le.",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "MetricsSummary": {
+      "$comment": "OB-06: hợp đồng, không phải bao đựng — TÊN + ĐƠN VỊ nằm ngay trong tên khoá (_pct, _mb, _gb, _kbps). additionalProperties=false có chủ đích: một khoá lạ là một khoá KHÔNG CÓ NGƯỜI ĐỌC, và trước phiên bản này ba ô CPU/RAM/Disk của Console đã vẽ từ những cái tên không nguồn như thế. Không đo được thì VẮNG trường, không trả 0 (OB-05): '0% CPU' và 'không đo được CPU' phải là hai màn hình khác nhau.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cpu_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "mem_used_mb": { "type": "number", "minimum": 0 },
+        "mem_total_mb": { "type": "number", "exclusiveMinimum": 0 },
+        "disk_used_gb": { "type": "number", "minimum": 0 },
+        "disk_total_gb": { "type": "number", "exclusiveMinimum": 0 },
+        "net_rx_kbps": { "type": "number", "minimum": 0 },
+        "net_tx_kbps": { "type": "number", "minimum": 0 },
+        "last_backup_at": { "type": "string", "format": "date-time" },
+        "last_backup_ok": { "type": "boolean" }
+      }
+    },
+    "CommandResult": {
+      "type": "object",
+      "required": ["id", "ok"],
+      "properties": {
+        "id": { "type": "string" },
+        "ok": { "type": "boolean" },
+        "error": { "type": "string" }
+      }
+    },
+    "Command": {
+      "type": "object",
+      "required": ["id", "idempotency_key", "kind", "payload"],
+      "properties": {
+        "id": { "type": "string" },
+        "idempotency_key": { "type": "string", "format": "uuid" },
+        "kind": {
+          "$comment": "Từ vựng lệnh — khớp store.CommandKinds phía cloud (test internal/spec canh hai chiều). app.install có dấu chấm vì nó mở một họ app.* (uninstall, update); chín kind còn lại giữ snake_case như ngày đầu — đổi tên một kind đã phát hành là phá agent cũ đang chạy.",
+          "enum": [
+            "set_dns_result",
+            "install_cert",
+            "rotate_license",
+            "notice",
+            "mint_admin_token",
+            "promote",
+            "offer_update",
+            "flip_dns_confirm",
+            "resize_plan",
+            "app.install"
+          ]
+        },
+        "payload": { "type": "object" },
+        "sig": { "type": "string" },
+        "expires_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "SyncRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["env_id", "version", "heartbeat"],
+      "properties": {
+        "env_id": { "type": "string" },
+        "host_role": { "enum": ["primary", "standby", "solo"], "default": "solo" },
+        "version": { "type": "string" },
+        "heartbeat": {
+          "type": "object",
+          "required": ["ts"],
+          "properties": {
+            "ts": { "type": "string", "format": "date-time" },
+            "uptime_s": { "type": "integer" }
+          }
+        },
+        "repl_lag_seconds": { "type": "number" },
+        "app_statuses": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/AppStatus" }
+        },
+        "metrics_summary": { "$ref": "#/$defs/MetricsSummary" },
+        "command_results": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/CommandResult" }
+        },
+        "cert_fingerprints": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "SyncResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commands"],
+      "properties": {
+        "commands": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Command" }
+        },
+        "next_poll_ms": { "type": "integer", "minimum": 500 },
+        "parent_domain": {
+          "$comment": "Tên miền gốc của môi trường (vd. demo.acme.keenrig.com) — do CLOUD quyết định, box chỉ nhận và hiển thị (luật chủ dự án 2026-09-07: keenrig-admin là nơi nhận thông tin thôi). Đi kèm MỌI phản hồi sync thay vì một kind lệnh mới: đây là TRẠNG THÁI chứ không phải sự kiện — box cài bằng --join không có tên miền sẽ tự lành ở nhịp sync kế tiếp, không cần backfill lệnh cho fleet đang chạy, và agent cũ không biết trường này thì bỏ qua vô hại. Vắng trường = cloud chưa chọn tên miền cho môi trường; agent KHÔNG được xoá giá trị local vì thế.",
+          "type": "string"
+        },
+        "domain_mode": {
+          "$comment": "keenrig = tên dưới miền của Keenrig, cloud quản DNS + cert; custom = tên riêng của khách. Khớp store.DomainModeKeenrig/DomainModeCustom phía cloud.",
+          "enum": ["keenrig", "custom"]
+        }
+      }
+    }
+  }
+}

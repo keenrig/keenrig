@@ -1,0 +1,365 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keenrig.com/schemas/desired.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "image"
+  ],
+  "properties": {
+    "image": {
+      "type": "string",
+      "minLength": 1
+    },
+    "http_port": {
+      "description": "Cổng app lắng nghe BÊN TRONG container. Gateway nối tới <ip-container>:<http_port>. Bỏ trống thì platform suy từ EXPOSE của image, không suy được thì dùng 80.",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "hostname"
+      },
+      "uniqueItems": true
+    },
+    "env": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "volumes": {
+      "$ref": "#/$defs/Volumes"
+    },
+    "addons": {
+      "$ref": "#/$defs/Addons"
+    },
+    "policy": {
+      "$ref": "#/$defs/Policy"
+    },
+    "resources": {
+      "$ref": "#/$defs/Resources"
+    },
+    "sso": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "backup": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "schedule": {
+          "type": "string"
+        }
+      }
+    },
+    "autoscale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "cpu_high": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 80
+        },
+        "max_replicas": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "Resources": {
+      "description": "Phan cung app duoc phep dung. Moi truong o day ung voi MOT nang luc (resources.Capability) va bi TU CHOI luc tao app neu runtime dang chay khong thuc thi duoc no. Luat nay khong phai su tinh te: Docker NHAN `--storage-opt size=64m` tren storage driver khong do quota, khong tra loi, roi container ghi 128MB vao 'han 64MB' binh thuong. Mot truong duoc nhan ma khong thuc thi te hon mot truong khong co. Co y KHONG co bang thong mang (khong runtime nao co cho khai) va cpuset (do la xep cho, khong phai han muc).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "memory_mb": {
+          "description": "RAM toi da (cgroup memory.max). Han duoi 64 vi duoi muc do khong image nao khoi dong noi, va mot app bi OOM ngay giay dau trong khi han muc 'da duoc dat' la loi rat kho lan.",
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 1048576
+        },
+        "memory_swap_mb": {
+          "description": "TONG memory+swap, khong phai rieng swap (ngu nghia `docker run --memory-swap`). Khong dat = swap KHONG GIOI HAN. Phai >= memory_mb; quan he do khong dien dat duoc bang JSON Schema nen resources.Validate canh no.",
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 2097152
+        },
+        "cpu": {
+          "description": "Tran CUNG theo so core (0.5 = nua core), cgroup cpu.max.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1024
+        },
+        "cpu_shares": {
+          "description": "Trong so TUONG DOI khi CPU tranh chap; mac dinh 1024. Khong chan app dung het core khi box ranh. Khoang 2..262144 la khoang Docker nhan; con so tuyet doi kernel thay phu thuoc host nen hop dong chi hua THU TU.",
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 262144
+        },
+        "pids_limit": {
+          "description": "So process/thread toi da (cgroup pids.max) - phong tuyen chong fork bomb. Han duoi 8 vi duoi muc do thi ngay entrypoint + shell da khong du chan.",
+          "type": "integer",
+          "minimum": 8,
+          "maximum": 1048576
+        },
+        "disk_mb": {
+          "description": "Tran lop ghi cua container, KHONG tinh volume ben. Chi thuc thi duoc tren storage driver co quota (overlay2 tren xfs bat pquota, btrfs, zfs); noi khac bi tu choi luc tao app.",
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 4194304
+        },
+        "io_read_mbps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
+        },
+        "io_write_mbps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
+        },
+        "io_read_iops": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000
+        },
+        "io_write_iops": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000
+        },
+        "ulimits": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Ulimit"
+          }
+        },
+        "shm_size_mb": {
+          "description": "Kich thuoc /dev/shm. Mac dinh 64MB cua Docker la nguyen nhan mot loat app crash khong ro ly do (Chromium, PostgreSQL parallel query).",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65536
+        },
+        "replicas": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64,
+          "default": 1
+        }
+      }
+    },
+    "Ulimit": {
+      "description": "Han muc theo process, ngu nghia y het `docker run --ulimit`. `name` la ENUM chu khong phai chuoi tu do: mot ten go sai (`nofiles`) bi Docker tu choi luc create, va loi do noi ra o tang driver - noi thong bao khong con noi duoc gi cho nguoi bam nut. Danh sach nay la giao cua thu Docker nhan va thu co nghia cho mot app web. `nproc` CO Y bi loai: Linux tinh RLIMIT_NPROC theo UID va dem chung moi container cung UID, nen no vua khong chan duoc dung app can chan vua ro ri qua ranh gioi app. Chan fork bomb bang `pids_limit` (cgroup pids.max), thu thuc su thuoc ve mot container.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "soft"
+      ],
+      "properties": {
+        "name": {
+          "enum": [
+            "core",
+            "cpu",
+            "data",
+            "fsize",
+            "locks",
+            "memlock",
+            "msgqueue",
+            "nice",
+            "nofile",
+            "rtprio",
+            "sigpending",
+            "stack"
+          ]
+        },
+        "soft": {
+          "description": "Han dang ap. 0 la hop le va co nghia that: `core=0` tat core dump - thu chan mot app crash lien tuc lam day dia.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "hard": {
+          "description": "Tran ma process duoc tu nang soft toi. Khong dat = bang soft, KHONG phai vo han: mot hop dong ma 0 nghia la vo han se bien moi ulimit khai thieu hard thanh ulimit bi vo hieu. Phai >= soft; resources.Validate canh quan he do.",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "Policy": {
+      "description": "Chính sách ở TẦNG BIÊN, do gateway thực thi — không phải thứ container app tự làm. Mỗi trường ở đây tương ứng MỘT năng lực (proxy.Capability), và tầng admission từ chối lúc tạo app nếu gateway đang chạy không có năng lực đó: bật WAF trên nginx thường bị từ chối, đổi sang nginx-owasp thì cho qua (PR-08). Đó là lý do danh sách này ngắn hơn thứ một gateway làm được — trường nào không có năng lực canh thì không được đưa vào, vì nó sẽ im lặng không có tác dụng trên gateway không đỡ nó.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "waf": {
+          "$ref": "#/$defs/WAF"
+        },
+        "rate_limit": {
+          "$ref": "#/$defs/RateLimit"
+        },
+        "ip_allow": {
+          "$ref": "#/$defs/CIDRList"
+        },
+        "ip_deny": {
+          "$ref": "#/$defs/CIDRList"
+        },
+        "body_limit_mb": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "forward_auth": {
+          "$ref": "#/$defs/ForwardAuth"
+        }
+      }
+    },
+    "WAF": {
+      "description": "ruleset là enum, không phải chuỗi tự do: một tên ruleset gõ sai sẽ được chấp nhận rồi không nạp được bộ luật nào, và site chạy KHÔNG có WAF trong khi người dùng tin là có.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ruleset"
+      ],
+      "properties": {
+        "ruleset": {
+          "enum": [
+            "owasp-crs"
+          ]
+        },
+        "block": {
+          "description": "false = chỉ ghi nhận (detect-only). Mặc định true: một WAF không chặn gì mà người vận hành tưởng đang chặn là tệ hơn không có WAF.",
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "RateLimit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requests_per_minute"
+      ],
+      "properties": {
+        "requests_per_minute": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "burst": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "CIDRList": {
+      "description": "IP hoặc dải CIDR. Chuỗi rỗng bị từ chối vì nó khớp KHÔNG GÌ CẢ nhưng làm site cần năng lực ip_filter — tức là bị từ chối ở admission mà không ai hiểu vì sao.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "ForwardAuth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1
+        },
+        "copy_headers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allowed_failures": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "Addons": {
+      "type": "object",
+      "properties": {
+        "postgres": {
+          "$ref": "#/$defs/AddonSpec"
+        },
+        "redis": {
+          "$ref": "#/$defs/AddonSpec"
+        }
+      }
+    },
+    "AddonSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Volumes": {
+      "description": "Thu muc BEN va duoc mount vao container. Khong khai = app khong giu duoc file nao qua lan cap nhat: moi lan deploy dung mot container MOI tu image goc.",
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "$ref": "#/$defs/VolumeMount"
+      }
+    },
+    "VolumeMount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "path"
+      ],
+      "properties": {
+        "name": {
+          "description": "Ten thu muc phia MAY CHU, duoi apps/<id>/volumes/. La RANH GIOI AN NINH: no thanh mot doan duong dan that.",
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{0,30}[a-z0-9]$"
+        },
+        "path": {
+          "description": "Duong dan TUYET DOI ben trong container. Doi path giua hai phien ban app khong lam mat du lieu, vi phia may chu neo theo `name`.",
+          "type": "string",
+          "pattern": "^/[^\\0]*$",
+          "minLength": 2
+        },
+        "read_only": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

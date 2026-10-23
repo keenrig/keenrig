@@ -1,0 +1,30 @@
+# build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/*
+
+# test artifacts & runtime data
+data/
+*.db
+*.db-wal
+*.db-shm
+master.key
+*.log
+*.out
+coverage.*
+
+# editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# secret cục bộ — .env chứa client secret / DSN có mật khẩu.
+# Chặn TRƯỚC khi file tồn tại: một .env lọt vào một commit là một secret phải xoay.
+.env
+.env.*
+!.env.example

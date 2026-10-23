@@ -1,0 +1,25 @@
+{
+  "id": "n8n",
+  "title": "n8n",
+  "description": "Workflow automation with a visual editor, 400+ integrations, code steps and AI agent nodes. Runs as a single container: workflows, credentials and the encryption key n8n generates on first boot live in an embedded SQLite database inside one persistent volume. Webhook URLs point at the app's first domain. Suited to personal and small-team use; queue mode with Postgres and Redis is not set up by this entry.",
+  "description_vi": "Tự động hoá quy trình bằng trình soạn trực quan, hơn 400 tích hợp, bước code và nút AI agent. Chạy trong một container: workflow, thông tin đăng nhập và khoá mã hoá n8n tự sinh ở lần khởi động đầu nằm trong cơ sở dữ liệu SQLite nhúng ở một volume bền. URL webhook trỏ về tên miền đầu tiên của app. Hợp cho cá nhân và nhóm nhỏ; mục này không dựng queue mode với Postgres và Redis.",
+  "version": "2.41.6",
+  "repository": "docker.io/n8nio/n8n",
+  "tag": "2.41.6",
+  "digest": "sha256:87e0bab2c93192e8dd885ff7b0697c22a1bd97489568a8c67cc140fd7dbb342d",
+  "http_port": 5678,
+  "env": {
+    "N8N_PROXY_HOPS": "1",
+    "N8N_DIAGNOSTICS_ENABLED": "false"
+  },
+  "origin_env": "WEBHOOK_URL",
+  "volumes": [
+    { "name": "data", "path": "/home/node/.n8n" }
+  ],
+  "min_memory_mb": 1024,
+  "healthcheck_path": "/healthz",
+  "tags": ["automation"],
+  "icon": "n8n.svg",
+  "website": "https://n8n.io/",
+  "source": "https://github.com/n8n-io/n8n"
+}

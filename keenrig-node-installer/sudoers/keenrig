@@ -1,0 +1,67 @@
+# /etc/sudoers.d/keenrig — quyền root HẸP cho user `keenrig`.
+#
+# Cài bằng: install -m 0440 -o root -g root sudoers/keenrig /etc/sudoers.d/keenrig
+# 0440 và chủ root là BẮT BUỘC: sudo TỪ CHỐI đọc file sudoers ghi được bởi
+# người khác, và nếu nó chấp nhận thì user keenrig tự sửa được quyền của chính
+# mình — tức là toàn bộ tệp này thành vô nghĩa.
+#
+# # Vì sao liệt kê từng script chứ không phải một dòng cho cả thư mục
+#
+# `NOPASSWD: /var/lib/keenrig/scripts/*` trông gọn hơn và sai hẳn: nó cấp
+# quyền root cho MỌI file sẽ xuất hiện trong thư mục đó về sau. Một lần OTA
+# thêm nhầm một script, hay một lỗ ghi file bất kỳ, là thành quyền root.
+#
+# Liệt kê từng cái nghĩa là thêm một khả năng đặc quyền phải đi kèm sửa file
+# này — tức là đi kèm một lần review.
+#
+# # Điều tệp này KHÔNG làm được, nói thẳng
+#
+# sudoers không kiểm được ĐỐI SỐ. Mỗi script được gọi với tham số tuỳ ý, nên
+# MỌI kiểm tra phải nằm trong chính script (danh sách trắng dịch vụ, hình dạng
+# app-id, realpath). Đọc chúng như đọc một API công khai, vì đó đúng là thứ nó
+# là.
+#
+# KHÔNG có tài khoản hỗ trợ nào mang `ALL=(ALL) NOPASSWD: ALL` — tức quyền root
+# vô hạn cho người ngoài. Self-host nghĩa là không có ai ngoài chủ máy được vào;
+# mọi quyền ở đây chỉ là danh sách script hẹp phía dưới.
+
+# `Defaults:keenrig !syslog` KHÔNG nằm ở đây — nó ở `keenrig-quiet`, một tệp
+# riêng cài theo kiểu best-effort. Lý do đo được trên Ubuntu 26.04 thật: từ
+# 25.10 Ubuntu thay sudo bằng **sudo-rs**, và sudo-rs từ chối cả tệp vì một
+# setting nó không biết:
+#
+#   /etc/sudoers.d/keenrig:30:19: syntax error: unknown setting: 'syslog'
+#
+# Một tệp bị từ chối là MẤT TRẮNG mọi dòng trong đó, kể cả các dòng hợp lệ —
+# nên một tinh chỉnh chỉ để bớt log sẽ kéo sập toàn bộ quyền của box. Tệp này chỉ giữ những gì CẢ sudo lẫn sudo-rs hiểu.
+
+# env_keep: script đọc KEENRIG_BASE để biết thư mục gốc. Không giữ biến này thì
+# script chạy trên một bố cục thư mục KHÁC với box — và nó sẽ tạo/xoá nhầm chỗ.
+Defaults!/var/lib/keenrig/scripts/caddy-bootstrap.sh env_keep="KEENRIG_BASE KEENRIG_USER"
+keenrig ALL=(root) NOPASSWD: /var/lib/keenrig/scripts/caddy-bootstrap.sh
+
+Defaults!/var/lib/keenrig/scripts/nginx-bootstrap.sh env_keep="KEENRIG_BASE KEENRIG_USER KEENRIG_ADMIN_UPSTREAM"
+keenrig ALL=(root) NOPASSWD: /var/lib/keenrig/scripts/nginx-bootstrap.sh
+
+# nginx-ctl là đường driver nginx gọi mỗi lần Apply — `nginx -t` và
+# `nginx -s reload` đều cần root vì master process chạy bằng root.
+Defaults!/var/lib/keenrig/scripts/nginx-ctl.sh env_keep="KEENRIG_BASE"
+keenrig ALL=(root) NOPASSWD: /var/lib/keenrig/scripts/nginx-ctl.sh
+
+Defaults!/var/lib/keenrig/scripts/restartservice.sh env_keep="KEENRIG_BASE KEENRIG_USER"
+keenrig ALL=(root) NOPASSWD: /var/lib/keenrig/scripts/restartservice.sh
+
+Defaults!/var/lib/keenrig/scripts/appdata.sh env_keep="KEENRIG_BASE KEENRIG_USER"
+keenrig ALL=(root) NOPASSWD: /var/lib/keenrig/scripts/appdata.sh
+
+Defaults!/var/lib/keenrig/scripts/du.sh env_keep="KEENRIG_BASE"
+keenrig ALL=(root) NOPASSWD: /var/lib/keenrig/scripts/du.sh
+
+Defaults!/var/lib/keenrig/scripts/reboot.sh env_keep="KEENRIG_BASE"
+keenrig ALL=(root) NOPASSWD: /var/lib/keenrig/scripts/reboot.sh
+
+# pair.sh ghép node với Console bằng join token dán từ Admin UI: ghi
+# /etc/keenrig/agent.env (root 0600) rồi restart agent. KEENRIG_CLOUD_URL đến
+# từ 10-local.conf (root ghi), KHÔNG từ request — script không nhận URL qua đối số.
+Defaults!/var/lib/keenrig/scripts/pair.sh env_keep="KEENRIG_BASE KEENRIG_CLOUD_URL"
+keenrig ALL=(root) NOPASSWD: /var/lib/keenrig/scripts/pair.sh
