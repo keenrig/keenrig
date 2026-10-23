@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/certs"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/certs"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
 )
 
 // noACMEProxy — gateway kiểu nginx: định tuyến được nhưng KHÔNG tự xin cert.

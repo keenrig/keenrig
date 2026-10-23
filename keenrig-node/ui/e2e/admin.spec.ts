@@ -16,7 +16,7 @@ import { join } from 'node:path'
 import { BOX_LOG, TMP } from './global-setup'
 
 const AUTH = join(TMP, 'auth-state.json')
-const OWNER = 'vincent'
+const OWNER = 'alice'
 const OWNER_PASS = 'mat-khau-du-dai-12'
 
 // RFC 6238 (TOTP) trên RFC 4226 (HOTP): HMAC-SHA1, 6 chữ số, bước 30 giây — đúng

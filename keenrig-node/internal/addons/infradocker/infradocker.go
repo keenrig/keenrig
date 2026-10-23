@@ -36,7 +36,7 @@ import (
 	"github.com/moby/moby/api/types/network"
 	"github.com/moby/moby/client"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons"
 )
 
 const (

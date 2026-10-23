@@ -20,11 +20,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons/addontest"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons/infradocker"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons/addontest"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons/infradocker"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // infraJSONPath — CÙNG file mà bản phát hành ship. Viết cứng digest trong test

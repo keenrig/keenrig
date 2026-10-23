@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/instance"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/instance"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // AD-12 — trạng thái pair là thứ AGENT báo, box chỉ ghi và tính. Ba ca: chưa

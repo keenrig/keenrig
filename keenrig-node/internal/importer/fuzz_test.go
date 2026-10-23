@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/importer"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/importer"
 )
 
 // IM-06 — fuzz parser: KHÔNG panic, KHÔNG OOM, với input bất kỳ.

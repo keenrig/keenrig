@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/jobs"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/jobs"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Dọn dẹp định kỳ — chạy như MỘT job thay vì nhiều cron riêng.

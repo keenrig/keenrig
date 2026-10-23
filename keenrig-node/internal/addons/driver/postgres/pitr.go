@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
 )
 
 // BK-03 — WAL archive liên tục + khôi phục theo thời điểm cho postgres.

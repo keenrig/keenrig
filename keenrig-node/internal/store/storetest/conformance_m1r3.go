@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Phần conformance thêm ở vòng 3 (T6b/T6c/T6d): endpoints, domains, addons,

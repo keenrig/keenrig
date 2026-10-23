@@ -8,17 +8,17 @@ import (
 	"testing"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime/runtimetest"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime/runtimetest"
 	"github.com/moby/moby/client"
 )
 
 // Gate CHƯA CÓ TÊN trong đặc tả: *app ghi file → cập nhật app → file còn nguyên*.
 //
 // Rà soát trước M3 không bắt được lỗ này, và nó là lỗ lớn nhất còn lại: không
-// testcase nào trong toàn bộ SYSTEM-DESIGN-TESTCASES phủ chuyện lưu trữ file cho
+// testcase nào trong bộ đặc tả kiểm thử phủ chuyện lưu trữ file cho
 // app. `IM-01` có nhắc `named volume`, nhưng nó bảo parser đọc volume VÀO
 // `desired` — mà `desired` trước hôm nay không có trường đó, nên nó map vào hư
 // không.

@@ -17,7 +17,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity"
 )
 
 // AdminSessionPath — đường mà cloud in ra trong `handoff.url` (xem

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/metrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/metrics"
 )
 
 // Ba số liệu BẮT BUỘC của keenrig-box phải có mặt, đúng TÊN và đúng KIỂU.

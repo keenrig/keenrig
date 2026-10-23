@@ -6,6 +6,6 @@
 package all
 
 import (
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target/driver/dir"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target/driver/s3"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/backup/target/driver/dir"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/backup/target/driver/s3"
 )

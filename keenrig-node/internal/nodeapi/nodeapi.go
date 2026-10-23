@@ -29,8 +29,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/metrics"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/metrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Lifecycle — thứ ota cần điều khiển để thay bin an toàn.

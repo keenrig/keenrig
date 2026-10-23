@@ -13,6 +13,6 @@
 package all
 
 import (
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy/driver/caddy"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy/driver/nginx"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/proxy/driver/caddy"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/proxy/driver/nginx"
 )

@@ -11,12 +11,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/api"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/apps"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/authz"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/domains"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/privops"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/api"
+	"github.com/keenrig/keenrig/keenrig-node/internal/apps"
+	"github.com/keenrig/keenrig/keenrig-node/internal/authz"
+	"github.com/keenrig/keenrig/keenrig-node/internal/domains"
+	"github.com/keenrig/keenrig/keenrig-node/internal/privops"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Ghép máy standalone với Console từ Admin UI: POST /cloud/pair.

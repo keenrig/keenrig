@@ -15,8 +15,8 @@ import (
 	"strings"
 	"testing"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	schemafs "github.com/keenrig-platform/keenrig/keenrig-contracts/jsonschema"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	schemafs "github.com/keenrig/keenrig/keenrig-contracts/jsonschema"
 )
 
 func desiredWithResources(res string) []byte {

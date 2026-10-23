@@ -25,9 +25,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/agent"
+	"github.com/keenrig/keenrig/keenrig-node/internal/agent"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // --- chính sách poll -------------------------------------------------------------

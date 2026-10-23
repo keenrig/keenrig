@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store/storetest"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store/storetest"
 )
 
 func TestSQLiteConformance(t *testing.T) {

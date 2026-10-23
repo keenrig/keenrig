@@ -32,7 +32,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Tên thao tác. Tên có dấu "/" là tên theo PHẠM VI: "<phạm vi>/<id app>", để

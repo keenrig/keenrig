@@ -59,7 +59,7 @@ func (s *SQLite) CreateUser(ctx context.Context, u *User) error {
 }
 
 // GetUserByName tra theo tên KHÔNG phân biệt hoa thường — cùng quy tắc với
-// UNIQUE index, nếu không thì tạo được "Vincent" trong khi đăng nhập "vincent"
+// UNIQUE index, nếu không thì tạo được "Alice" trong khi đăng nhập "alice"
 // lại báo không tồn tại.
 func (s *SQLite) GetUserByName(ctx context.Context, username string) (*User, error) {
 	row := s.db.QueryRowContext(ctx,

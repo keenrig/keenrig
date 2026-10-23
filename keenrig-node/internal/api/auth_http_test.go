@@ -18,7 +18,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity"
 )
 
 // --- POST /auth/logout ---------------------------------------------------------------
@@ -101,12 +101,12 @@ func TestChangePasswordOverHTTPRevokesEverySession(t *testing.T) {
 
 	// Mật khẩu mới dùng được, mật khẩu cũ thì không.
 	if code, _ := do(t, srv, "POST", "/api/v1/auth/login", "", map[string]string{
-		"username": "vincent", "password": "mật-khẩu-đủ-dài-12",
+		"username": "alice", "password": "mật-khẩu-đủ-dài-12",
 	}); code != 401 {
 		t.Errorf("mật khẩu cũ vẫn đăng nhập được (= %d)", code)
 	}
 	if code, body := do(t, srv, "POST", "/api/v1/auth/login", "", map[string]string{
-		"username": "vincent", "password": "mật-khẩu-mới-dài-hơn-nữa",
+		"username": "alice", "password": "mật-khẩu-mới-dài-hơn-nữa",
 	}); code != 200 {
 		t.Errorf("mật khẩu mới không đăng nhập được (= %d): %s", code, body)
 	}
@@ -118,7 +118,7 @@ func TestTOTPLifecycleOverHTTP(t *testing.T) {
 	srv, ident, _ := newTokenServer(t)
 	sess := ownerSession(t, ident)
 	login := func(totp string) (int, []byte) {
-		body := map[string]string{"username": "vincent", "password": "mật-khẩu-đủ-dài-12"}
+		body := map[string]string{"username": "alice", "password": "mật-khẩu-đủ-dài-12"}
 		if totp != "" {
 			body["totp"] = totp
 		}

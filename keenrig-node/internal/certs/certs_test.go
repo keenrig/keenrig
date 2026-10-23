@@ -14,9 +14,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/certs"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/certs"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 type fakeIssuer struct {

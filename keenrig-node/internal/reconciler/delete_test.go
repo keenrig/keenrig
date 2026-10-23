@@ -15,9 +15,9 @@ import (
 
 	"github.com/moby/moby/api/types/container"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // TestDeleteAppRemovesContainers — e2e Docker thật: CreateApp → reconciler dựng

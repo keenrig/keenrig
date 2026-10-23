@@ -13,9 +13,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/authz"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/authz"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 const goodPass = "mật-khẩu-đủ-dài-12"
@@ -33,7 +33,7 @@ func setup(t *testing.T, opts identity.Options) (*identity.Service, store.Store)
 
 func mustOwner(t *testing.T, s *identity.Service) *store.User {
 	t.Helper()
-	u, err := s.CreateOwner(context.Background(), "vincent", goodPass)
+	u, err := s.CreateOwner(context.Background(), "alice", goodPass)
 	if err != nil {
 		t.Fatalf("CreateOwner: %v", err)
 	}
@@ -100,7 +100,7 @@ func TestLockoutAfterFailures(t *testing.T) {
 	ctx := context.Background()
 	mustOwner(t, s)
 
-	in := identity.LoginInput{Username: "vincent", Password: "sai-mật-khẩu-rồi", IP: "10.0.0.1"}
+	in := identity.LoginInput{Username: "alice", Password: "sai-mật-khẩu-rồi", IP: "10.0.0.1"}
 	for i := 0; i < identity.MaxLoginFailures; i++ {
 		if _, _, err := s.Login(ctx, in); !errors.Is(err, identity.ErrInvalidCredentials) {
 			t.Fatalf("lần %d = %v, muốn ErrInvalidCredentials", i+1, err)
@@ -108,7 +108,7 @@ func TestLockoutAfterFailures(t *testing.T) {
 	}
 	// Chạm ngưỡng → khoá, và mật khẩu ĐÚNG cũng không vào được.
 	if _, _, err := s.Login(ctx, identity.LoginInput{
-		Username: "vincent", Password: goodPass, IP: "10.0.0.1",
+		Username: "alice", Password: goodPass, IP: "10.0.0.1",
 	}); !errors.Is(err, identity.ErrLocked) {
 		t.Fatalf("sau %d lần sai, mật khẩu đúng = %v, muốn ErrLocked", identity.MaxLoginFailures, err)
 	}
@@ -130,7 +130,7 @@ func TestUnknownUserAlsoCounted(t *testing.T) {
 	}
 	// IP đó nay bị khoá, kể cả khi đổi sang tên đúng.
 	if _, _, err := s.Login(ctx, identity.LoginInput{
-		Username: "vincent", Password: goodPass, IP: "10.0.0.9",
+		Username: "alice", Password: goodPass, IP: "10.0.0.9",
 	}); !errors.Is(err, identity.ErrLocked) {
 		t.Errorf("IP đã dò %d lần vẫn vào được: %v", identity.MaxLoginFailures, err)
 	}
@@ -147,12 +147,12 @@ func TestSuccessClearsFailures(t *testing.T) {
 	mustOwner(t, s)
 
 	for i := 0; i < identity.MaxLoginFailures-1; i++ {
-		_, _, _ = s.Login(ctx, identity.LoginInput{Username: "vincent", Password: "sai", IP: "10.0.0.2"})
+		_, _, _ = s.Login(ctx, identity.LoginInput{Username: "alice", Password: "sai", IP: "10.0.0.2"})
 	}
-	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass, IP: "10.0.0.2"}); err != nil {
+	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass, IP: "10.0.0.2"}); err != nil {
 		t.Fatalf("đăng nhập đúng: %v", err)
 	}
-	if _, err := st.GetLoginAttempts(ctx, "user:vincent"); !errors.Is(err, store.ErrNotFound) {
+	if _, err := st.GetLoginAttempts(ctx, "user:alice"); !errors.Is(err, store.ErrNotFound) {
 		t.Errorf("lịch sử thử sai chưa được xoá: %v", err)
 	}
 }
@@ -163,7 +163,7 @@ func TestSessionLifecycle(t *testing.T) {
 	ctx := context.Background()
 	u := mustOwner(t, s)
 
-	token, sess, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass, IP: "10.0.0.3"})
+	token, sess, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass, IP: "10.0.0.3"})
 	if err != nil {
 		t.Fatalf("Login: %v", err)
 	}
@@ -200,7 +200,7 @@ func TestSessionExpiry(t *testing.T) {
 	ctx := context.Background()
 	mustOwner(t, s)
 
-	token, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass})
+	token, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -276,7 +276,7 @@ func TestTOTPFlow(t *testing.T) {
 	if got.TOTPEnabled {
 		t.Error("bật TOTP ngay khi đăng ký — người chưa quét QR sẽ bị khoá ra ngoài")
 	}
-	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass}); err != nil {
+	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass}); err != nil {
 		t.Errorf("chưa xác nhận TOTP mà login đã cần mã: %v", err)
 	}
 
@@ -293,24 +293,24 @@ func TestTOTPFlow(t *testing.T) {
 	}
 
 	// Đã bật → thiếu mã là ErrTOTPRequired, KHÔNG phải sai mật khẩu.
-	_, _, err = s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass})
+	_, _, err = s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass})
 	if !errors.Is(err, identity.ErrTOTPRequired) {
 		t.Errorf("thiếu mã = %v, muốn ErrTOTPRequired", err)
 	}
 	// Thiếu mã KHÔNG được tính là thử sai, nếu không UI hỏi mã theo hai bước
 	// sẽ tự khoá tài khoản người dùng.
-	if la, err := st.GetLoginAttempts(ctx, "user:vincent"); err == nil && la.Failures > 0 {
+	if la, err := st.GetLoginAttempts(ctx, "user:alice"); err == nil && la.Failures > 0 {
 		t.Errorf("thiếu mã TOTP bị tính là thử sai: %+v", la)
 	}
 
 	if _, _, err := s.Login(ctx, identity.LoginInput{
-		Username: "vincent", Password: goodPass, TOTPCode: "000000",
+		Username: "alice", Password: goodPass, TOTPCode: "000000",
 	}); !errors.Is(err, identity.ErrTOTPInvalid) {
 		t.Errorf("mã sai = %v", err)
 	}
 	code, _ = identity.TOTPCode(secret, time.Now())
 	if _, _, err := s.Login(ctx, identity.LoginInput{
-		Username: "vincent", Password: goodPass, TOTPCode: code,
+		Username: "alice", Password: goodPass, TOTPCode: code,
 	}); err != nil {
 		t.Errorf("mã đúng vẫn không vào được: %v", err)
 	}
@@ -376,7 +376,7 @@ func TestChangePasswordRevokesSessions(t *testing.T) {
 	ctx := context.Background()
 	u := mustOwner(t, s)
 
-	token, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass})
+	token, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -393,7 +393,7 @@ func TestChangePasswordRevokesSessions(t *testing.T) {
 	if _, err := s.Authenticate(r); !errors.Is(err, authz.ErrUnauthenticated) {
 		t.Error("phiên cũ còn sống sau khi đổi mật khẩu")
 	}
-	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: newPass}); err != nil {
+	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: newPass}); err != nil {
 		t.Errorf("mật khẩu mới không dùng được: %v", err)
 	}
 }
@@ -404,7 +404,7 @@ func TestDisabledUserSessionDies(t *testing.T) {
 	ctx := context.Background()
 	u := mustOwner(t, s)
 
-	token, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass})
+	token, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -427,7 +427,7 @@ func TestUsernameCaseInsensitive(t *testing.T) {
 	ctx := context.Background()
 	mustOwner(t, s)
 
-	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "VinCent", Password: goodPass}); err != nil {
+	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "AliCe", Password: goodPass}); err != nil {
 		t.Errorf("đăng nhập bằng tên khác hoa thường: %v", err)
 	}
 }
@@ -450,11 +450,11 @@ func TestResetPasswordRecoversLockedOutOwner(t *testing.T) {
 	ctx := context.Background()
 	u := mustOwner(t, s)
 
-	token, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass, IP: "10.0.0.1"})
+	token, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass, IP: "10.0.0.1"})
 	if err != nil {
 		t.Fatal(err)
 	}
-	bad := identity.LoginInput{Username: "vincent", Password: "quên-mất-rồi-nhé", IP: "10.0.0.1"}
+	bad := identity.LoginInput{Username: "alice", Password: "quên-mất-rồi-nhé", IP: "10.0.0.1"}
 	for i := 0; i < identity.MaxLoginFailures; i++ {
 		_, _, _ = s.Login(ctx, bad)
 	}
@@ -464,7 +464,7 @@ func TestResetPasswordRecoversLockedOutOwner(t *testing.T) {
 	}
 
 	newPass := "mật-khẩu-sau-khi-reset"
-	if _, err := s.ResetPassword(ctx, "VINCENT", newPass, false); err != nil {
+	if _, err := s.ResetPassword(ctx, "ALICE", newPass, false); err != nil {
 		t.Fatalf("ResetPassword: %v", err)
 	}
 
@@ -473,13 +473,13 @@ func TestResetPasswordRecoversLockedOutOwner(t *testing.T) {
 	if _, err := s.Authenticate(r); !errors.Is(err, authz.ErrUnauthenticated) {
 		t.Error("phiên cũ còn sống sau khi reset")
 	}
-	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: newPass, IP: "10.0.0.1"}); err != nil {
+	if _, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: newPass, IP: "10.0.0.1"}); err != nil {
 		t.Errorf("mật khẩu mới không dùng được từ IP vừa bị khoá: %v", err)
 	}
 	if _, err := s.ResetPassword(ctx, "không-có-ai", newPass, false); !errors.Is(err, store.ErrNotFound) {
 		t.Errorf("reset user không tồn tại = %v, muốn ErrNotFound", err)
 	}
-	if _, err := s.ResetPassword(ctx, "vincent", "ngắn", false); err == nil {
+	if _, err := s.ResetPassword(ctx, "alice", "ngắn", false); err == nil {
 		t.Error("reset chấp nhận mật khẩu dưới 12 ký tự")
 	}
 }

@@ -14,11 +14,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/api"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/apps"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/domains"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/api"
+	"github.com/keenrig/keenrig/keenrig-node/internal/apps"
+	"github.com/keenrig/keenrig/keenrig-node/internal/domains"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // newTokenServer dựng server với identity THẬT (không phải fakeAuth) — token
@@ -33,7 +33,7 @@ func newTokenServer(t *testing.T) (*httptest.Server, *identity.Service, store.St
 	t.Cleanup(func() { st.Close() })
 
 	ident := identity.New(st, identity.Options{})
-	if _, err := ident.CreateOwner(t.Context(), "vincent", "mật-khẩu-đủ-dài-12"); err != nil {
+	if _, err := ident.CreateOwner(t.Context(), "alice", "mật-khẩu-đủ-dài-12"); err != nil {
 		t.Fatalf("CreateOwner: %v", err)
 	}
 	h := api.New(apps.New(st, domains.New(st), apps.Options{}), st, ident, api.WithIdentity(ident))
@@ -46,7 +46,7 @@ func newTokenServer(t *testing.T) (*httptest.Server, *identity.Service, store.St
 func ownerSession(t *testing.T, ident *identity.Service) string {
 	t.Helper()
 	tok, _, err := ident.Login(t.Context(), identity.LoginInput{
-		Username: "vincent", Password: "mật-khẩu-đủ-dài-12",
+		Username: "alice", Password: "mật-khẩu-đủ-dài-12",
 	})
 	if err != nil {
 		t.Fatalf("Login: %v", err)

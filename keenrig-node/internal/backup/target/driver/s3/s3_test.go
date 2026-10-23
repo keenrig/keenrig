@@ -28,8 +28,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target/targettest"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target/targettest"
 )
 
 const (

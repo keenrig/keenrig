@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 func mustUser(t *testing.T, st store.Store, id, name string) *store.User {
@@ -37,7 +37,7 @@ func mustToken(t *testing.T, st store.Store, hash, id, userID string, ttl time.D
 
 func testAPITokenLifecycle(t *testing.T, st store.Store) {
 	ctx := context.Background()
-	mustUser(t, st, "u1", "vincent")
+	mustUser(t, st, "u1", "alice")
 	mustToken(t, st, "hash-1", "tok-1", "u1", time.Hour)
 
 	got, err := st.GetAPIToken(ctx, "hash-1")
@@ -81,7 +81,7 @@ func testAPITokenLifecycle(t *testing.T, st store.Store) {
 // và chỗ nào quên là một token chết vẫn gọi được API.
 func testAPITokenExpiryFilteredInSQL(t *testing.T, st store.Store) {
 	ctx := context.Background()
-	mustUser(t, st, "u1", "vincent")
+	mustUser(t, st, "u1", "alice")
 	mustToken(t, st, "hash-live", "tok-live", "u1", time.Hour)
 	mustToken(t, st, "hash-dead", "tok-dead", "u1", -time.Hour) // đã hết hạn
 
@@ -115,7 +115,7 @@ func testAPITokenExpiryFilteredInSQL(t *testing.T, st store.Store) {
 // Ràng buộc này phải nằm trong CÂU TRUY VẤN, vì tầng service có thể quên.
 func testAPITokenIsolationBetweenUsers(t *testing.T, st store.Store) {
 	ctx := context.Background()
-	mustUser(t, st, "u1", "vincent")
+	mustUser(t, st, "u1", "alice")
 	mustUser(t, st, "u2", "mallory")
 	mustToken(t, st, "hash-1", "tok-1", "u1", time.Hour)
 

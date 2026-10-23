@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Khẳng định của DRIVER, không thuộc conformance: bản sao MỞ LẠI ĐƯỢC và nội

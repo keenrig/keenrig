@@ -20,7 +20,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
 )
 
 // Opener dựng một Target SẠCH cho mỗi subtest.

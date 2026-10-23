@@ -6,6 +6,6 @@
 package all
 
 import (
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/proprietary/runtime/k8s"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/proprietary/runtime/swarm"
+	_ "github.com/keenrig/keenrig/keenrig-node/proprietary/runtime/k8s"
+	_ "github.com/keenrig/keenrig/keenrig-node/proprietary/runtime/swarm"
 )

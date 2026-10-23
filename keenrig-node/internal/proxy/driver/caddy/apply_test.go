@@ -16,8 +16,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
 )
 
 // fakeAdmin — admin API tối giản: giữ mảng routes trong bộ nhớ.

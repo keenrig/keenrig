@@ -34,7 +34,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
 )
 
 // Name — tên driver.

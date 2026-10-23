@@ -27,8 +27,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/domains"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/domains"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Khoá trong bảng `settings`.

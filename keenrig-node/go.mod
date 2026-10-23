@@ -1,4 +1,4 @@
-module github.com/keenrig-platform/keenrig/keenrig-node
+module github.com/keenrig/keenrig/keenrig-node
 
 go 1.26
 
@@ -6,7 +6,7 @@ require (
 	github.com/containerd/errdefs v1.0.0
 	github.com/moby/moby/api v1.55.0
 	github.com/moby/moby/client v0.5.1
-	github.com/keenrig-platform/keenrig/keenrig-contracts v0.0.0-00010101000000-000000000000
+	github.com/keenrig/keenrig/keenrig-contracts v0.0.0-00010101000000-000000000000
 	github.com/spf13/cobra v1.10.1
 	modernc.org/sqlite v1.39.0
 )
@@ -30,7 +30,7 @@ require (
 	github.com/opencontainers/image-spec v1.1.1 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/santhosh-tekuri/jsonschema/v6 v6.0.2 // indirect
-	github.com/keenrig-platform/keenrig/keenrig-catalog v0.0.0-00010101000000-000000000000
+	github.com/keenrig/keenrig/keenrig-catalog v0.0.0-00010101000000-000000000000
 	github.com/spf13/pflag v1.0.9 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.60.0 // indirect
@@ -47,6 +47,6 @@ require (
 	modernc.org/memory v1.11.0 // indirect
 )
 
-replace github.com/keenrig-platform/keenrig/keenrig-contracts => ../keenrig-contracts
+replace github.com/keenrig/keenrig/keenrig-contracts => ../keenrig-contracts
 
-replace github.com/keenrig-platform/keenrig/keenrig-catalog => ../keenrig-catalog
+replace github.com/keenrig/keenrig/keenrig-catalog => ../keenrig-catalog

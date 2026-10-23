@@ -23,7 +23,7 @@ package proxy
 import (
 	"sort"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // PolicyFrom chuyển chính sách trong desired sang chính sách của seam.

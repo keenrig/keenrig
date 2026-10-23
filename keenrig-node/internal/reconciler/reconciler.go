@@ -17,13 +17,13 @@ import (
 	"runtime/debug"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/certs"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/health"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons"
+	"github.com/keenrig/keenrig/keenrig-node/internal/certs"
+	"github.com/keenrig/keenrig/keenrig-node/internal/health"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 type Options struct {

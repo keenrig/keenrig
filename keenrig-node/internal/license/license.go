@@ -28,7 +28,7 @@ import (
 	"strings"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // Keys — khoá công theo key_id. Giữ HAI khoá (active + next) để xoay khoá mà

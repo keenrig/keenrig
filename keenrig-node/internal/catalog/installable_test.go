@@ -5,8 +5,8 @@ import (
 
 	"encoding/json"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/catalog"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/catalog"
 )
 
 // MỌI app trong danh mục phải CÀI ĐƯỢC bằng đúng giá trị mặc định của nó.

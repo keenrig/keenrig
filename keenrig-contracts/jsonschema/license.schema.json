@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://keenrig.com/schemas/license.schema.json",
-  "$comment": "v2 (2026-09-01): thêm plan/max_apps/max_domains cho mô hình 5 bậc hợp nhất billing+license (DESIGN-plans-unified.md). max_nodes đổi minimum 1→0: 0 nghĩa là KHÔNG GIỚI HẠN — quy ước này áp cho cả max_apps/max_domains. An toàn vì chưa có license nào từng được ký (internal/license hai phía đều TODO tới hôm nay).",
+  "$comment": "v2: adds plan, max_apps and max_domains. For max_nodes, max_apps and max_domains, 0 means unlimited.",
   "type": "object",
   "additionalProperties": false,
   "required": ["license_id", "instance_id", "features", "issued_at", "expires_at", "grace_days"],

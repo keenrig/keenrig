@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // mustOIDCUser tạo một user để mã uỷ quyền có chỗ trỏ tới (FK).

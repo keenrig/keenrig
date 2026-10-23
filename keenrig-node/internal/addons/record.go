@@ -39,7 +39,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // Record — bản ghi cấp phát addon cho MỘT app. Khớp addon.schema.json.

@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/jobs"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/locks"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/jobs"
+	"github.com/keenrig/keenrig/keenrig-node/internal/locks"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 func openStore(t *testing.T) store.Store {

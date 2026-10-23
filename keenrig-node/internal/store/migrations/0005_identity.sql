@@ -21,8 +21,8 @@ CREATE TABLE users (
     updated_at    TEXT NOT NULL
 );
 
--- Tên đăng nhập không phân biệt hoa thường: người dùng gõ "Vincent" hôm nay và
--- "vincent" ngày mai vẫn phải là một người, và hai tài khoản chỉ khác hoa
+-- Tên đăng nhập không phân biệt hoa thường: người dùng gõ "Alice" hôm nay và
+-- "alice" ngày mai vẫn phải là một người, và hai tài khoản chỉ khác hoa
 -- thường là một cái bẫy giả mạo.
 CREATE UNIQUE INDEX idx_users_username ON users (lower(username));
 

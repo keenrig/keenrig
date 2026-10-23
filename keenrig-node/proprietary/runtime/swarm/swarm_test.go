@@ -19,10 +19,10 @@ import (
 
 	"github.com/moby/moby/client"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
-	"github.com/keenrig-platform/keenrig/keenrig-node/proprietary/runtime/swarm"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime/runtimetest"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime/runtimetest"
+	"github.com/keenrig/keenrig/keenrig-node/proprietary/runtime/swarm"
 )
 
 func requireSwarmManager(t *testing.T) {

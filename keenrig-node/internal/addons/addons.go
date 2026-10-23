@@ -46,8 +46,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Kind — addon đã đăng ký. Phải khớp enum trong addon.schema.json.

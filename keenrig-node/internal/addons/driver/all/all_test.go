@@ -7,7 +7,7 @@ package all
 import (
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons"
 )
 
 // AllKinds là thứ schema, API và UI dùng để nói "hệ thống hỗ trợ addon nào".

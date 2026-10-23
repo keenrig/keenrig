@@ -39,7 +39,7 @@ import (
 	"net/netip"
 	"sort"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
 )
 
 const (

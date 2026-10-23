@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/catalog"
+	"github.com/keenrig/keenrig/keenrig-node/internal/catalog"
 )
 
 // Mọi mục trong danh mục đi kèm binary phải có mô tả ở CẢ HAI ngôn ngữ của sản

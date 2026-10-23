@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/catalog"
+	"github.com/keenrig/keenrig/keenrig-node/internal/catalog"
 )
 
 const goodJSON = `{

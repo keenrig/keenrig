@@ -3,8 +3,8 @@ package api
 import (
 	"net/http"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/authz"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/importer"
+	"github.com/keenrig/keenrig/keenrig-node/internal/authz"
+	"github.com/keenrig/keenrig/keenrig-node/internal/importer"
 )
 
 // POST /api/v1/import/compose — dịch một file compose thành desired NHÁP.

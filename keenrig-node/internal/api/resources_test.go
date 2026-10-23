@@ -19,12 +19,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/api"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/apps"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/authz"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/domains"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/resources"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/api"
+	"github.com/keenrig/keenrig/keenrig-node/internal/apps"
+	"github.com/keenrig/keenrig/keenrig-node/internal/authz"
+	"github.com/keenrig/keenrig/keenrig-node/internal/domains"
+	"github.com/keenrig/keenrig/keenrig-node/internal/resources"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // serverOnRuntime dựng API với năng lực hạn mức của một driver runtime thật.

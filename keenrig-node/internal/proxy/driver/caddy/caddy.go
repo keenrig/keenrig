@@ -30,7 +30,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
 )
 
 const Name = "caddy"

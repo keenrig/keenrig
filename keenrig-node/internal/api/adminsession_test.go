@@ -18,12 +18,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/api"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/apps"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/domains"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/httpd"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/api"
+	"github.com/keenrig/keenrig/keenrig-node/internal/apps"
+	"github.com/keenrig/keenrig/keenrig-node/internal/domains"
+	"github.com/keenrig/keenrig/keenrig-node/internal/httpd"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 func sha256Hex(v string) string {
@@ -44,7 +44,7 @@ func newHandoffServer(t *testing.T, withOwner bool) (*httptest.Server, *identity
 
 	ident := identity.New(st, identity.Options{})
 	if withOwner {
-		if _, err := ident.CreateOwner(t.Context(), "vincent", "mật-khẩu-đủ-dài-12"); err != nil {
+		if _, err := ident.CreateOwner(t.Context(), "alice", "mật-khẩu-đủ-dài-12"); err != nil {
 			t.Fatalf("CreateOwner: %v", err)
 		}
 	}

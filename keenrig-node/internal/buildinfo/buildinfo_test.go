@@ -16,7 +16,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/buildinfo"
+	"github.com/keenrig/keenrig/keenrig-node/internal/buildinfo"
 )
 
 func TestLDFlagReachesEveryBinary(t *testing.T) {

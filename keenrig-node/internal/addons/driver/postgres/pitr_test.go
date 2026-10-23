@@ -26,9 +26,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target/driver/dir"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target/driver/dir"
 )
 
 // Server ĐANG chạy với archiving — không phải ta tưởng thế.

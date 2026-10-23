@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/certs"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/certs"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // T9 — hai đường TLS, chọn theo NĂNG LỰC gateway (PX-02).

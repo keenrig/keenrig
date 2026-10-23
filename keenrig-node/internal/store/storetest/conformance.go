@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // RunConformance chạy toàn bộ suite trên store do open cấp (mỗi subtest 1 store tươi).

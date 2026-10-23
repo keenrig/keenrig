@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
 )
 
 var adminUp = proxy.Upstream{Host: "127.0.0.1", Port: 8080}

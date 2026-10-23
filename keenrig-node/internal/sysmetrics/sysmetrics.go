@@ -33,7 +33,7 @@ import (
 	"sync"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // Collector gom số đo. Zero value KHÔNG dùng được — tạo bằng New.

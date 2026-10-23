@@ -18,9 +18,9 @@ import (
 	"github.com/moby/moby/api/types/container"
 	"github.com/moby/moby/client"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime/driver/docker"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime/driver/docker"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // itgLabelAppID lặp lại const của package docker (unexported bên đó) — kiểm

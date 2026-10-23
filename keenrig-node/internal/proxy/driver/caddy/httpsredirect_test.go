@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
 )
 
 func TestPlainHTTPIsRedirectedBeforeAnySiteOrTheAdminLogin(t *testing.T) {

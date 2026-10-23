@@ -17,9 +17,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/authz"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/authz"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // authAs gọi Authenticate với một request mang bearer token từ IP cho trước.
@@ -192,7 +192,7 @@ func TestPasswordChangeKeepsTokensKillsSessions(t *testing.T) {
 	ctx := context.Background()
 	u := mustOwner(t, s)
 
-	sessToken, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass})
+	sessToken, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -406,7 +406,7 @@ func TestTokenAndSessionDoNotCrossOver(t *testing.T) {
 	ctx := context.Background()
 	u := mustOwner(t, s)
 
-	sessToken, _, err := s.Login(ctx, identity.LoginInput{Username: "vincent", Password: goodPass})
+	sessToken, _, err := s.Login(ctx, identity.LoginInput{Username: "alice", Password: goodPass})
 	if err != nil {
 		t.Fatal(err)
 	}

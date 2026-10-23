@@ -10,12 +10,12 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/crypt"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/snapshot"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/crypt"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/format"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/snapshot"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Ba lệnh sao lưu, và một quyết định chung: chúng là lệnh RIÊNG chứ không phải

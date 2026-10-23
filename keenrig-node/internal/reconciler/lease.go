@@ -9,8 +9,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/metrics"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/metrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // # Vì sao reconciler phải giành lease — và vì sao NGAY BÂY GIỜ

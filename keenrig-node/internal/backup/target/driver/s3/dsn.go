@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
 )
 
 // Hai biến cho credential, KHÔNG đặt trong DSN — xem godoc s3.go.

@@ -21,12 +21,12 @@ import (
 	"fmt"
 	"strings"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/domains"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/license"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/resources"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/domains"
+	"github.com/keenrig/keenrig/keenrig-node/internal/license"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/resources"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 var (

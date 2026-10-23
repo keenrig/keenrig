@@ -15,7 +15,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/release"
+	"github.com/keenrig/keenrig/keenrig-node/internal/release"
 )
 
 func verifyCmd() *cobra.Command {

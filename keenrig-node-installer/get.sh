@@ -1174,7 +1174,7 @@ upgrade_node() {
 # that failed here, one run at a time) is what makes running it unattended
 # acceptable. What it still lacks is a SIGNATURE: whoever controls the release
 # host can push a binary to every node with this timer on. That is why it is
-# opt-in, and why keenrig-ota (signed, DESIGN-ota.md) is meant to replace it.
+# opt-in, and why keenrig-ota (signed updates) is meant to replace it.
 
 # save_upgrade_script stores the CHANNEL's installer as the copy the timer runs.
 # Not "this script": piped through `curl | sh` there is no file to copy. The

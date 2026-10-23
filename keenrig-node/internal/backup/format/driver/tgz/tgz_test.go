@@ -10,9 +10,9 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format/driver/tgz"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format/formattest"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/format"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/format/driver/tgz"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/format/formattest"
 )
 
 func TestTgzConformance(t *testing.T) {

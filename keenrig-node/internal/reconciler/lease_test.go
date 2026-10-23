@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // leaseOpts — nhịp nhanh + TTL ngắn, vẫn giữ đúng bất đẳng thức TTL > renew +

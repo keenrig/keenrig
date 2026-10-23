@@ -5,7 +5,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
 )
 
 // PITR — năng lực khôi phục theo THỜI ĐIỂM, cho addon nào làm được (BK-03).

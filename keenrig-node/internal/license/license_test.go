@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/license"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/license"
 )
 
 // Bộ test này KHÔNG có mock chữ ký: khoá Ed25519 thật sinh trong test, ký thật,

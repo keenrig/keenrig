@@ -21,7 +21,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/release"
+	"github.com/keenrig/keenrig/keenrig-node/internal/release"
 )
 
 const keyID = "keenrig-release-2026"

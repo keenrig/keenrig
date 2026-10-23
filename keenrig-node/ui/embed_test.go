@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/ui"
+	"github.com/keenrig/keenrig/keenrig-node/ui"
 )
 
 func requireBuilt(t *testing.T) {

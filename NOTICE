@@ -1,0 +1,14 @@
+Keenrig
+Copyright (C) 2026 Keenrig
+
+Everything in this repository is licensed under the GNU Affero General Public
+License v3.0 (see LICENSE), except files under keenrig-node/proprietary/, which
+are covered by the Keenrig Commercial License in keenrig-node/proprietary/LICENSE.
+
+App names, colours and icons in keenrig-catalog/ identify the third-party apps
+the catalog installs. They are trademarks of their respective owners; Keenrig is
+not affiliated with or endorsed by them.
+
+Some icon paths in keenrig-node/ui/src/components/Icon.vue are from Feather
+Icons (https://feathericons.com), Copyright (c) 2013-2017 Cole Bemis, licensed
+under the MIT License.

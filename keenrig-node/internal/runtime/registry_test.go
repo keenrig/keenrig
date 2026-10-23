@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/reconciler"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime/driver/all"
+	"github.com/keenrig/keenrig/keenrig-node/internal/reconciler"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/runtime/driver/all"
 )
 
 // Cả ba driver phải có mặt trong binary — nếu không, `KEENRIG_RUNTIME=k8s` sẽ

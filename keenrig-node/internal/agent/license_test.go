@@ -18,7 +18,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/agent"
+	"github.com/keenrig/keenrig/keenrig-node/internal/agent"
 )
 
 // licenseCloud — control plane giả có CẢ sync lẫn license.

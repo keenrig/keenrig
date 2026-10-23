@@ -27,7 +27,7 @@ package main
 
 import (
 	"context"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/buildinfo"
+	"github.com/keenrig/keenrig/keenrig-node/internal/buildinfo"
 	"log"
 	"net/http"
 	"os"
@@ -37,11 +37,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/agent"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/metrics"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/nodeapi"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/sysmetrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/agent"
+	"github.com/keenrig/keenrig/keenrig-node/internal/metrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/nodeapi"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/sysmetrics"
 )
 
 // version phải TRÙNG chuỗi của keenrig-box và keenrig-ota: sync protocol là hợp đồng chung,

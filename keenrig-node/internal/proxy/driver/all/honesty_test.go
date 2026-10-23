@@ -15,9 +15,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy/driver/all"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/proxy/driver/all"
 )
 
 // Luật, phát biểu ở dạng chặt nhất: MỘT driver mở được thì nó PHẢI định tuyến

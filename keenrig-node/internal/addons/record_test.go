@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	schemafs "github.com/keenrig-platform/keenrig/keenrig-contracts/jsonschema"
+	schemafs "github.com/keenrig/keenrig/keenrig-contracts/jsonschema"
 )
 
 func TestRecordValidate(t *testing.T) {

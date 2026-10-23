@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/metrics"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/nodeapi"
+	"github.com/keenrig/keenrig/keenrig-node/internal/metrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/nodeapi"
 )
 
 type fakeTickets struct {

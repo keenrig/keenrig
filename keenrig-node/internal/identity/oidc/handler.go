@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/authz"
+	"github.com/keenrig/keenrig/keenrig-node/internal/authz"
 )
 
 // Đường dẫn CỐ ĐỊNH của giao thức.

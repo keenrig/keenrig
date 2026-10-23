@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/api"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/instance"
+	"github.com/keenrig/keenrig/keenrig-node/internal/api"
+	"github.com/keenrig/keenrig/keenrig-node/internal/instance"
 )
 
 // Admin UI phải biết instance thuộc tên miền nào, để đề xuất `<app>.<parent>`.

@@ -22,10 +22,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
-	"github.com/keenrig-platform/keenrig/keenrig-node/proprietary/runtime/k8s"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime/runtimetest"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime/runtimetest"
+	"github.com/keenrig/keenrig/keenrig-node/proprietary/runtime/k8s"
 )
 
 func requireCluster(t *testing.T) {

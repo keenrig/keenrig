@@ -1,70 +1,53 @@
-# Marketplace 1-click — Vultr, DigitalOcean, Akamai/Linode
+# Cloud marketplace images — Vultr, DigitalOcean, Akamai/Linode
 
-Mục tiêu: người không rành kỹ thuật bấm một nút lúc tạo máy, không phải chạy `curl | sudo sh`.
+Lets someone create a server with Keenrig already installed by clicking one button in their cloud
+provider's marketplace, instead of running `curl | sudo sh`.
 
-| Tệp | Là gì |
+| File | What it is |
 |---|---|
-| [`keenrig.pkr.hcl`](keenrig.pkr.hcl) | Packer: dựng snapshot cho **Vultr** và **DigitalOcean** |
-| [`cleanup.sh`](cleanup.sh) | Dọn máy dựng trước khi chụp — xoá mọi thứ thuộc về MỘT máy |
-| [`../scripts/firstboot.sh`](../scripts/firstboot.sh) | Chạy ở lần boot đầu của máy khách: chờ box, ghi địa chỉ + token, lời chào khi đăng nhập, một ping nguồn cài |
-| [`linode-stackscript.sh`](linode-stackscript.sh) | StackScript cho **Linode** — chạy `get.sh` lúc tạo máy, không có snapshot |
+| [`keenrig.pkr.hcl`](keenrig.pkr.hcl) | Packer template that builds the snapshot for **Vultr** and **DigitalOcean** |
+| [`cleanup.sh`](cleanup.sh) | Cleans the build machine before the snapshot — removes everything that belongs to ONE machine |
+| [`../scripts/firstboot.sh`](../scripts/firstboot.sh) | Runs on the customer's first boot: waits for the box, writes the address and setup token, adds a login banner, sends one install-source ping |
+| [`linode-stackscript.sh`](linode-stackscript.sh) | StackScript for **Linode** — runs `get.sh` while the server is created, no snapshot |
 
-## Luật số một: image không được mang danh tính
+## Rule one: an image must not carry an identity
 
-Image marketplace được nhân bản công khai. Còn sót `instance/master.key` trong snapshot thì **mọi máy khách
-dùng chung một khoá** bọc secret. `cleanup.sh` xoá `instance/`, SSH host key, `machine-id`, `authorized_keys`,
-log; `keenrig-box`, systemd và cloud-init sinh lại ở máy khách. `cleanup.sh` từ chối chạy nếu máy có
-container — image chỉ dựng từ bản cài sạch.
+Marketplace images are cloned publicly. If `instance/master.key` were left in the snapshot, **every customer
+server would share one key** for wrapping secrets. `cleanup.sh` removes `instance/`, SSH host keys,
+`machine-id`, `authorized_keys` and logs; `keenrig-box`, systemd and cloud-init regenerate them on the
+customer's server. `cleanup.sh` refuses to run if the machine has containers — images are built only from a
+clean install.
 
-**Kiểm tra bắt buộc mỗi lần dựng (T6):** tạo HAI máy từ cùng snapshot, rồi trên mỗi máy:
+**Required check for every build:** create TWO servers from the same snapshot, then on each:
 
 ```sh
-sha256sum /var/lib/keenrig/instance/master.key   # hai máy phải KHÁC nhau
-ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub  # khác nhau
-cat /root/keenrig-setup.txt                       # có địa chỉ, có token, token khác nhau
+sha256sum /var/lib/keenrig/instance/master.key   # must DIFFER between the two
+ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub  # must differ
+cat /root/keenrig-setup.txt                       # has an address and a token; tokens differ
 curl -s http://127.0.0.1:8080/api/v1/auth/setup   # {"needs_setup":true}
 ```
 
-Mở `http://<IP>/` → tạo chủ → cài một app → app Running. Chỉ khi cả hai máy qua hết mới nộp.
+Open `http://<IP>/` → create the owner → install an app → the app is Running. Submit only when both servers pass.
 
-## Dựng image
+## Building the image
 
 ```sh
 cd keenrig-node-installer/marketplace
 packer init .
 VULTR_API_KEY=... DIGITALOCEAN_TOKEN=... packer build -var version=0.4.0 .
-packer build -only='vultr.keenrig' -var version=0.4.0 .   # một nơi
+packer build -only='vultr.keenrig' -var version=0.4.0 .   # one provider only
 ```
 
-Trước khi dựng: bản phát hành phải có sẵn ở `get.keenrig.com/dl/stable/` —
-Packer cài từ kênh, không cài từ máy mình. Dựng lại mỗi bản lớn.
+Packer installs from the published release channel at `get.keenrig.com/dl/stable/`, not from your machine.
+Rebuild for every major release.
 
-## Nộp từng nơi
+## Install-source ping
 
-| Nơi | Bước | Ghi chú |
-|---|---|---|
-| **Vultr** | Portal → Marketplace → Get Started → đồng ý Publisher Agreement → Vendor Settings → tạo app từ snapshot | Tự phục vụ. Tài liệu: docs.vultr.com/platform/marketplace-vendor |
-| **DigitalOcean** | Vendor Portal (marketplace.digitalocean.com/vendors) → nộp snapshot đã qua `99-img_check.sh` | Có duyệt. Packer đã chạy `90-cleanup.sh` + `99-img_check.sh` — img_check không được có FAIL |
-| **Linode** | Điền form "Register Your App" → đội Linode liên hệ → nộp StackScript lên GitHub | Họ có thể yêu cầu bọc lại theo layout Ansible của repo marketplace-apps |
-| Hetzner | — | Hiện không nhận app mới (hetznercloud/apps) |
+Each marketplace server sends exactly one
+`GET https://get.keenrig.com/ping?src=<vultr|digitalocean|linode>&v=<version>` on first boot, with no other
+data. It is documented at keenrig.com/privacy and can be disabled by creating `/etc/keenrig/no-ping`.
 
-**Hồ sơ niêm yết** — viết theo nhu cầu, không theo kỹ thuật; ghi đúng giấy phép: Keenrig là **freemium**
-(Starter miễn phí: 1 máy · 3 app · 3 domain), **các app nó cài** là mã nguồn mở. Không ghi Keenrig là open source.
-Cấu hình khuyên dùng: Ubuntu 24.04, ≥ 2 GB RAM. Hỗ trợ: `hello@keenrig.com` (phải nhận thư được trước khi nộp).
+## Security note
 
-## Đo
-
-Mỗi máy marketplace gửi đúng một `GET https://get.keenrig.com/ping?src=<vultr|digitalocean|linode>&v=<version>`
-ở lần boot đầu (công bố ở keenrig.com/privacy; bỏ qua bằng tệp `/etc/keenrig/no-ping`). nginx ghi riêng vào
-`/var/log/nginx/keenrig-ping.log`:
-
-```sh
-awk -F'src=' '/GET \/ping/ {split($2,a,/[& ]/); n[a[1]]++} END {for (s in n) print s, n[s]}' /var/log/nginx/keenrig-ping.log
-```
-
-## Chưa giải quyết — chặn trước khi nộp
-
-`POST /api/v1/auth/setup` (tạo chủ) **không đòi setup token**: khi chưa có chủ, ai mở `http://<IP>/` trước thì
-chiếm máy. Với image marketplace, máy lên mạng công khai ngay khi boot, và máy quét IP tìm tới trong vài phút.
-`firstboot.sh` chỉ cảnh báo người dùng tạo chủ ngay — đó không phải bản sửa. Xem
-`PLAN-campaign-additions.md` mục C6.2.
+Until the owner account is created, the first person to open `http://<IP>/` can create it. Create the owner
+right after the server boots; `firstboot.sh` prints this reminder in the login banner.

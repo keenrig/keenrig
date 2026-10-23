@@ -3,7 +3,7 @@ package docker
 import (
 	"context"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
 )
 
 // Name — tên driver trong registry.

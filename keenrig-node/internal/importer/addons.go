@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // IM-02 — service chạy một database CHÍNH THỨC được HẤP THỤ thành addon managed,

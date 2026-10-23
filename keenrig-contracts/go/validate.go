@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	schemafs "github.com/keenrig-platform/keenrig/keenrig-contracts/jsonschema"
+	schemafs "github.com/keenrig/keenrig/keenrig-contracts/jsonschema"
 	jsv "github.com/santhosh-tekuri/jsonschema/v6"
 )
 

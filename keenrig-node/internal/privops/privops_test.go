@@ -17,7 +17,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/privops"
+	"github.com/keenrig/keenrig/keenrig-node/internal/privops"
 )
 
 // fakeRunner ghi lại mọi lời gọi thay vì thực thi.

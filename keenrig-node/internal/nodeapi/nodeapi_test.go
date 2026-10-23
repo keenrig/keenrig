@@ -16,12 +16,12 @@ import (
 	"testing"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/instance"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/metrics"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/nodeapi"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/instance"
+	"github.com/keenrig/keenrig/keenrig-node/internal/metrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/nodeapi"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 type fakeLifecycle struct {

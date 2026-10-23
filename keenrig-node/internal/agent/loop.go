@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // Vòng lặp poll — trái tim của agent, và là chỗ cam kết "cắt cloud không sao"

@@ -28,8 +28,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/resources"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/resources"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
 )
 
 // ResourceCaps trả thẳng bảng tĩnh: những gì `resources.limits` chứa được thì

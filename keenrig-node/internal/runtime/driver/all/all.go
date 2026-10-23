@@ -10,5 +10,5 @@
 package all
 
 import (
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime/driver/docker"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/runtime/driver/docker"
 )

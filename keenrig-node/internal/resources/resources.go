@@ -32,7 +32,7 @@ import (
 	"sort"
 	"strings"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // Capability — một hạn mức mà nền tảng CÓ THỂ thực thi. Driver công bố tập mình

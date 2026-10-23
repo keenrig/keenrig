@@ -20,8 +20,8 @@ import (
 
 	"golang.org/x/crypto/acme"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // ACMEIssuer — xin cert qua ACME với thử thách HTTP-01 kiểu WEBROOT.

@@ -16,7 +16,7 @@ import (
 // Kiểm bằng `go list -deps` chứ không bằng lời hứa trong comment: comment không
 // đỏ khi ai đó thêm import.
 func TestLayer1DoesNotImportSubsystems(t *testing.T) {
-	const prefix = "github.com/keenrig-platform/keenrig/keenrig-node/internal/"
+	const prefix = "github.com/keenrig/keenrig/keenrig-node/internal/"
 	banned := []string{"reconciler", "runtime", "addons", "supervise"}
 
 	for _, pkg := range []string{"api", "httpd", "nodeapi"} {

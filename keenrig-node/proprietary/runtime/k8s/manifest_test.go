@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
 )
 
 func spec(id, slug string, rev int64) runtime.AppSpec {

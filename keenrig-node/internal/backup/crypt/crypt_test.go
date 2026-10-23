@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/crypt"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/crypt"
 )
 
 const pass = "mot-passphrase-du-dai-de-qua-nguong"

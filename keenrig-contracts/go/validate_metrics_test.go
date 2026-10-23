@@ -17,7 +17,7 @@ import (
 	"testing"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // syncDoc bọc một metrics_summary vào một SyncRequest tối thiểu hợp lệ — bộ

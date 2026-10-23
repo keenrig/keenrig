@@ -21,8 +21,8 @@ import (
 	"path"
 	"strings"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/authz"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/catalog"
+	"github.com/keenrig/keenrig/keenrig-node/internal/authz"
+	"github.com/keenrig/keenrig/keenrig-node/internal/catalog"
 )
 
 func (s *Server) catalogRoutes() {

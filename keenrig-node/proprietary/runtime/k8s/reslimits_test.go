@@ -13,9 +13,9 @@ import (
 	"strings"
 	"testing"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/resources"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/resources"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
 )
 
 func specWithRes(r *contracts.Resources) runtime.AppSpec {

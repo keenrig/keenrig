@@ -6,6 +6,6 @@
 package all
 
 import (
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/addons/driver/postgres"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/addons/driver/redis"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/addons/driver/postgres"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/addons/driver/redis"
 )

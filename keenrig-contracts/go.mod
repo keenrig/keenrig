@@ -1,4 +1,4 @@
-module github.com/keenrig-platform/keenrig/keenrig-contracts
+module github.com/keenrig/keenrig/keenrig-contracts
 
 go 1.26
 

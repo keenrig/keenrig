@@ -47,8 +47,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 const (

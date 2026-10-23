@@ -21,8 +21,8 @@ import (
 	"github.com/moby/moby/api/types/container"
 	swarmapi "github.com/moby/moby/api/types/swarm"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/resources"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
+	"github.com/keenrig/keenrig/keenrig-node/internal/resources"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
 )
 
 // ResourceCaps — swarm không có cờ nào phụ thuộc host cho phần này: những gì

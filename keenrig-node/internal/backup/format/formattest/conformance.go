@@ -32,7 +32,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/format"
 )
 
 // Opener dựng một Format sạch cho mỗi subtest.

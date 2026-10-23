@@ -18,7 +18,7 @@ import (
 	"testing"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // tree ghi một cây file giả; key là đường dẫn tương đối kiểu slash.

@@ -9,14 +9,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/crypt"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format/driver/tgz"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/snapshot"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target/driver/dir"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/crypt"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/format"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/format/driver/tgz"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/snapshot"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target/driver/dir"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Toàn bộ bộ test này chạy trên FILESYSTEM THẬT và SQLite THẬT — driver `dir`

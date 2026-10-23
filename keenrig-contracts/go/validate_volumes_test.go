@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // `volumes` là kênh lưu trữ file của app — và `name` của nó trở thành một đoạn

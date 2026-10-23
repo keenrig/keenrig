@@ -1,4 +1,22 @@
-# Keenrig
+<p align="center">
+  <a href="https://keenrig.com"><img alt="Keenrig" src="docs/assets/keenrig-logo.png" width="96"></a>
+</p>
+
+<h1 align="center">Keenrig</h1>
+
+<p align="center">
+  <b>Self-host n8n, Activepieces and more — set up in 5 minutes.</b><br>
+  A Cloudron alternative with a free tier: domain, HTTPS and backups handled. Your server, your data.
+</p>
+
+<p align="center">
+  <a href="https://keenrig.com">Website</a> ·
+  <a href="https://keenrig.com/en/docs/install">Install guide</a> ·
+  <a href="CONTRIBUTING.md">Contributing</a> ·
+  <a href="LICENSE">AGPL-3.0</a>
+</p>
+
+<p align="center"><img alt="Keenrig Admin — App Store" src="docs/assets/keenrig-banner.png" width="100%"></p>
 
 **Self-hosted app platform for your own server.** Install open-source apps (n8n, Activepieces,
 Open WebUI, …) on any Linux VPS with one command, with HTTPS, backups and updates handled for you.
@@ -50,7 +68,7 @@ added: apps and data stay as they are.
 Requires Go 1.26+, Node.js 20+ and Docker.
 
 ```sh
-git clone https://github.com/keenrig-platform/keenrig.git && cd keenrig
+git clone https://github.com/keenrig/keenrig.git && cd keenrig
 make ui
 go run ./keenrig-node/cmd/keenrig-box serve --data ./data --secure-cookies=false
 ```

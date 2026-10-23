@@ -9,7 +9,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Ba khẳng định về SnapshotTo, phát biểu ở tầng KHÔNG biết driver.

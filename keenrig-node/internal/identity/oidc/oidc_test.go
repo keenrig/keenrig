@@ -33,10 +33,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/httpd"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity/oidc"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/httpd"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity/oidc"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 const (
@@ -71,12 +71,12 @@ func newRig(t *testing.T, opts oidc.Options) *rig {
 	// Secure:false → cookie không có tiền tố __Host-, vì httptest phục vụ HTTP
 	// trần và trình duyệt (cũng như http.Client) từ chối __Host- trên http://.
 	ident := identity.New(st, identity.Options{Secure: false})
-	owner, err := ident.CreateOwner(context.Background(), "vincent", ownerPass)
+	owner, err := ident.CreateOwner(context.Background(), "alice", ownerPass)
 	if err != nil {
 		t.Fatalf("CreateOwner: %v", err)
 	}
 	tok, _, err := ident.Login(context.Background(), identity.LoginInput{
-		Username: "vincent", Password: ownerPass,
+		Username: "alice", Password: ownerPass,
 	})
 	if err != nil {
 		t.Fatalf("Login: %v", err)
@@ -261,7 +261,7 @@ func TestFullSSOFlow(t *testing.T) {
 	if _, ok := claims["auth_time"]; !ok {
 		t.Error("thiếu auth_time — RP không dùng được max_age")
 	}
-	if claims["preferred_username"] != "vincent" {
+	if claims["preferred_username"] != "alice" {
 		t.Errorf("preferred_username = %v (scope profile đã xin)", claims["preferred_username"])
 	}
 
@@ -271,7 +271,7 @@ func TestFullSSOFlow(t *testing.T) {
 	if info["sub"] != r.owner.ID {
 		t.Errorf("userinfo.sub = %v, muốn %s", info["sub"], r.owner.ID)
 	}
-	if info["preferred_username"] != "vincent" {
+	if info["preferred_username"] != "alice" {
 		t.Errorf("userinfo.preferred_username = %v", info["preferred_username"])
 	}
 }

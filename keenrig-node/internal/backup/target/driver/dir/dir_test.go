@@ -9,9 +9,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target/driver/dir"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target/targettest"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target/driver/dir"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target/targettest"
 )
 
 func TestDirConformance(t *testing.T) {

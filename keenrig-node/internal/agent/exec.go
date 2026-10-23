@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"time"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 // AdminTicketSink — thứ executor cần để làm xong `mint_admin_token`.

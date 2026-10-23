@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
 )
 
 // Dịch proxy.Site → route JSON của Caddy.
@@ -247,7 +247,7 @@ func buildHTTPSRedirect() (route, error) {
 		return route{}, err
 	}
 	return route{
-		ID:       httpsRedirectID,
+		ID: httpsRedirectID,
 		Match: []matcher{{
 			Protocol: "http",
 			Not: []matcher{{

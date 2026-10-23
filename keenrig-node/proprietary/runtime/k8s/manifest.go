@@ -7,8 +7,8 @@ import (
 	"sort"
 	"strconv"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
 )
 
 // Kiểu manifest — chỉ khai những trường ta THẬT SỰ ghi hoặc đọc.

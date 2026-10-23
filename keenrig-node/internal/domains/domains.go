@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // ErrInvalidFQDN — tên miền không dùng được. Trả về ngay ở tầng service để API

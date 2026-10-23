@@ -25,14 +25,14 @@ import (
 	"strings"
 	"testing"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/apps"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/domains"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy/driver/all"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy/driver/nginx"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/apps"
+	"github.com/keenrig/keenrig/keenrig-node/internal/domains"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/proxy/driver/all"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy/driver/nginx"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 func openStore(t *testing.T) store.Store {

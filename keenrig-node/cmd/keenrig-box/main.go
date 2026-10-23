@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/buildinfo"
+	"github.com/keenrig/keenrig/keenrig-node/internal/buildinfo"
 	"io"
 	"log"
 	"net"
@@ -20,42 +20,42 @@ import (
 
 	"github.com/spf13/cobra"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	addonimages "github.com/keenrig-platform/keenrig/keenrig-node/addon-images"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/addons/driver/all"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	addonimages "github.com/keenrig/keenrig/keenrig-node/addon-images"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/addons/driver/all"
 	// Driver sao lưu: nạp để `backup`/`restore` chọn được chúng qua biến môi
 	// trường. Cùng mô hình với ba dòng driver/all bên dưới — core không chỗ nào
 	// biết tên driver cụ thể.
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons/infradocker"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/api"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/apps"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/authz"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format/driver/all"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target/driver/all"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/catalog"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/certs"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/domains"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/health"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/httpd"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/identity/oidc"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/instance"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/jobs"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/license"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/metrics"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/nodeapi"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/privops"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy/driver/all"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/reconciler"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/resources"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime/driver/all"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/supervise"
-	"github.com/keenrig-platform/keenrig/keenrig-node/ui"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons/infradocker"
+	"github.com/keenrig/keenrig/keenrig-node/internal/api"
+	"github.com/keenrig/keenrig/keenrig-node/internal/apps"
+	"github.com/keenrig/keenrig/keenrig-node/internal/authz"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/backup/format/driver/all"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/backup/target/driver/all"
+	"github.com/keenrig/keenrig/keenrig-node/internal/catalog"
+	"github.com/keenrig/keenrig/keenrig-node/internal/certs"
+	"github.com/keenrig/keenrig/keenrig-node/internal/domains"
+	"github.com/keenrig/keenrig/keenrig-node/internal/health"
+	"github.com/keenrig/keenrig/keenrig-node/internal/httpd"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity"
+	"github.com/keenrig/keenrig/keenrig-node/internal/identity/oidc"
+	"github.com/keenrig/keenrig/keenrig-node/internal/instance"
+	"github.com/keenrig/keenrig/keenrig-node/internal/jobs"
+	"github.com/keenrig/keenrig/keenrig-node/internal/license"
+	"github.com/keenrig/keenrig/keenrig-node/internal/metrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/nodeapi"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/privops"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/proxy/driver/all"
+	"github.com/keenrig/keenrig/keenrig-node/internal/reconciler"
+	"github.com/keenrig/keenrig/keenrig-node/internal/resources"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/runtime/driver/all"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/supervise"
+	"github.com/keenrig/keenrig/keenrig-node/ui"
 )
 
 func main() {
@@ -66,7 +66,7 @@ func main() {
 		SilenceErrors: true,
 	}
 	// `--version` là thứ keenrig-ota chạy thử trên binary mới TRƯỚC khi thay
-	// bin/ (DESIGN-ota.md §5, pha download): in sai version = gói hỏng.
+	// bin/: in sai version = gói hỏng.
 	root.Version = version
 	root.SetVersionTemplate("keenrig-box " + version + "\n")
 

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
 )
 
 func TestParseDSN(t *testing.T) {

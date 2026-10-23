@@ -24,7 +24,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/addons"
+	"github.com/keenrig/keenrig/keenrig-node/internal/addons"
 )
 
 // Opener cấp một Addon tươi cho mỗi subtest.

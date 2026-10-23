@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/instance"
+	"github.com/keenrig/keenrig/keenrig-node/internal/instance"
 )
 
 // SettingParentDomain — khoá trong bảng `settings` giữ tên miền gốc của instance.

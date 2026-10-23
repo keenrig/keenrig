@@ -36,7 +36,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
 )
 
 // Tên driver đã đăng ký.

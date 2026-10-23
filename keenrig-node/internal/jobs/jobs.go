@@ -37,8 +37,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/metrics"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/metrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // Kind — tên loại job. Hằng số để không rải chuỗi: gõ sai kind nghĩa là job

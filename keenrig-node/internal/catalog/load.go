@@ -10,7 +10,7 @@ import (
 	"sort"
 	"strings"
 
-	keenrigcatalog "github.com/keenrig-platform/keenrig/keenrig-catalog"
+	keenrigcatalog "github.com/keenrig/keenrig/keenrig-catalog"
 )
 
 // LoadFS nạp mọi *.json trong fsys.

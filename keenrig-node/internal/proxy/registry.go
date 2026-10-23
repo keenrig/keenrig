@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
 )
 
 // Chọn gateway bằng ĐÚNG HAI biến môi trường (quy tắc scale-ready #2 — 12-factor):

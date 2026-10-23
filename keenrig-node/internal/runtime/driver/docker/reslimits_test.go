@@ -36,9 +36,9 @@ import (
 	"github.com/moby/moby/api/types/system"
 	"github.com/moby/moby/client"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/resources"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/runtime"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/resources"
+	"github.com/keenrig/keenrig/keenrig-node/internal/runtime"
 )
 
 // probeImage — cần một image CÓ SHELL để đọc /sys/fs/cgroup. testImage

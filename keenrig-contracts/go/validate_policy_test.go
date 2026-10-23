@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
 )
 
 func TestValidateDesiredPolicy(t *testing.T) {

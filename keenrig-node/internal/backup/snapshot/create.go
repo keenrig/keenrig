@@ -14,10 +14,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/crypt"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/crypt"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/format"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
 )
 
 var (

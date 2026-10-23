@@ -30,7 +30,7 @@ import (
 	"github.com/moby/moby/api/types/system"
 	"github.com/moby/moby/client"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/resources"
+	"github.com/keenrig/keenrig/keenrig-node/internal/resources"
 )
 
 // storageDriversWithQuota — storage driver thực thi được quota lớp ghi.

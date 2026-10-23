@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
 )
 
 // Chọn nơi chạy app bằng ĐÚNG HAI biến môi trường — cùng mô hình với seam

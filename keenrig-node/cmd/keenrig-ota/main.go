@@ -32,7 +32,7 @@
 package main
 
 import (
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/buildinfo"
+	"github.com/keenrig/keenrig/keenrig-node/internal/buildinfo"
 	"log"
 	"net/http"
 	"os"
@@ -40,9 +40,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/metrics"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/nodeapi"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/release"
+	"github.com/keenrig/keenrig/keenrig-node/internal/metrics"
+	"github.com/keenrig/keenrig/keenrig-node/internal/nodeapi"
+	"github.com/keenrig/keenrig/keenrig-node/internal/release"
 )
 
 // trustedKeys — khoá công khai được TIN, nhúng lúc build.

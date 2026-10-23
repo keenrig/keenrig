@@ -5,8 +5,8 @@ package runtime
 import (
 	"context"
 
-	contracts "github.com/keenrig-platform/keenrig/keenrig-contracts/go"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/resources"
+	contracts "github.com/keenrig/keenrig/keenrig-contracts/go"
+	"github.com/keenrig/keenrig/keenrig-node/internal/resources"
 )
 
 // AppSpec — trạng thái mong muốn của 1 app, đủ để driver hiện thực hoá.

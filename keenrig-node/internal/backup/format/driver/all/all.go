@@ -6,5 +6,5 @@
 package all
 
 import (
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/format/driver/tgz"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/backup/format/driver/tgz"
 )

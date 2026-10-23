@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/domains"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/store"
+	"github.com/keenrig/keenrig/keenrig-node/internal/domains"
+	"github.com/keenrig/keenrig/keenrig-node/internal/store"
 )
 
 // RebaseDomains dời mọi tên của app đang nằm dưới tên miền gốc CŨ sang tên miền

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/importer"
+	"github.com/keenrig/keenrig/keenrig-node/internal/importer"
 )
 
 func runOK(t *testing.T, cmd string) importer.Result {

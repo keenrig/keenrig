@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/paths"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy/driver/all"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/proxy/driver/nginx"
+	"github.com/keenrig/keenrig/keenrig-node/internal/paths"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/proxy/driver/all"
+	"github.com/keenrig/keenrig/keenrig-node/internal/proxy/driver/nginx"
 )
 
 func cfg() proxy.Config {

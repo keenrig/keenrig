@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target"
-	_ "github.com/keenrig-platform/keenrig/keenrig-node/internal/backup/target/driver/all"
+	"github.com/keenrig/keenrig/keenrig-node/internal/backup/target"
+	_ "github.com/keenrig/keenrig/keenrig-node/internal/backup/target/driver/all"
 )
 
 func TestRegisteredDrivers(t *testing.T) {

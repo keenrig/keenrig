@@ -36,7 +36,7 @@ func TestOwnerUserPicksTheOldestLiveAdmin(t *testing.T) {
 	// Chủ cũ đã bị vô hiệu vẫn phải bị bỏ qua — vô hiệu hoá một tài khoản mà
 	// nó vẫn nhận được phiên là vô hiệu hoá trên giấy.
 	mk("u-old", "old-owner", []string{scopeAdmin}, true)
-	mk("u-owner", "vincent", []string{"apps:read", scopeAdmin}, false)
+	mk("u-owner", "alice", []string{"apps:read", scopeAdmin}, false)
 	mk("u-second", "second", []string{scopeAdmin}, false)
 
 	u, err := st.OwnerUser(ctx)

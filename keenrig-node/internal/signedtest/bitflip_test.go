@@ -8,8 +8,8 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/release"
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/signedtest"
+	"github.com/keenrig/keenrig/keenrig-node/internal/release"
+	"github.com/keenrig/keenrig/keenrig-node/internal/signedtest"
 )
 
 // SEC-02 — lật MỘT bit ở BẤT KỲ đâu trong một artifact đã ký → phải bị TỪ CHỐI,

@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/keenrig-platform/keenrig/keenrig-node/internal/importer"
+	"github.com/keenrig/keenrig/keenrig-node/internal/importer"
 )
 
 func importOK(t *testing.T, yaml string) importer.Result {
